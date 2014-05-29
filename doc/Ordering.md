@@ -23,6 +23,8 @@ Add an admin user and group, allowing for the admin user to login via ssh and us
 
 Set a base configuration for iptables, allowing only SSH traffic.
 
+This playbook is intentionally self-contained.
+
 + User:: Add admin user's SSH key to authorized hosts 
 + User:: Add admin to sudoers.d/ with NOPASSWD:ALL
 + Iptables / UFW:: ALLOW port 22
