@@ -1,9 +1,9 @@
-#Ansible @ Augmate 
+#Ansible @ Augmate
 ------
 
 ##Getting started
 
-####Pre-requisite: 
+####Pre-requisite:
 
 - Install Python 2.7 (if not bundled with your OS)
 - Install Python's 'virtualenv'
@@ -11,24 +11,24 @@
 
 ####Installing Ansible
 
-(Optional, recommended) Activate your virtualenv.  
+(Optional, recommended) Activate your virtualenv.
 
-Install Ansible: 
+Install Ansible:
 
 	pip install ansible
-		
+
 Make sure that you received version 1.6.2 or newer:
 
 	ansible --version
 	>ansible 1.6.2
 
-	
+
 By default, Ansible uses '/etc/ansible/hosts' as its inventory of machines to configure.
 
 You can override this from the command line by using the `-i` switch, e.g.:
 
 	ansible all -utfisher -a "/bin/echo 'OK'" -i hosts
-	
+
 Or by setting an environmental variable:
 
 	export ANSIBLE_HOSTS=~/code/ansible/inventory/production.hosts
@@ -43,7 +43,7 @@ This file has contents similar to the following:
 to use a different SSH port (e.g. 2022), use `hostname.example.org:2022`.
 
 
-####Add your SSH key to the remote box and get sudo 
+####Add your SSH key to the remote box and get sudo
 
 Run the `step_one.yml` playbook against your new server:
 
@@ -53,4 +53,4 @@ Where -u is the name of the user that has root access or can _sudo_ to the _root
 
 ----
 
-Now move on the [ordering documentation](docs/Ordering.md).
+Now move on the [ordering documentation](doc/Ordering.md).
