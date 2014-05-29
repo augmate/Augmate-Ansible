@@ -66,10 +66,6 @@
       service: name=ufw state=restarted
       sudo: true
 
-    # restart the ssh srver on every run, not just the first
-    - name: restart ssh
-      service: name=ssh state=restarted
-
     - set_fact:
         step_one: 'OK'
 
