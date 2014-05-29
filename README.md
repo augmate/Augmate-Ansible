@@ -1,5 +1,7 @@
-##Ansible @ Augmate 
+#Ansible @ Augmate 
 ------
+
+##Getting started
 
 ####Pre-requisite: 
 
@@ -41,15 +43,14 @@ This file has contents similar to the following:
 to use a different SSH port (e.g. 2022), use `hostname.example.org:2022`.
 
 
-##Add your SSH key to the remote box and get sudo 
+####Add your SSH key to the remote box and get sudo 
 
-Run the `step_one.yml` playbook against the new 
+Run the `step_one.yml` playbook against your new server:
 
 	ansible-playbook -i inventory/development.hosts playbooks/step_zero.yml -u root --ask-pass
 
+Where -u is the name of the user that has root access or can _sudo_ to the _root_ user.
 
 ----
 
-
-
-Now move on the ordering documentation.
+Now move on the [ordering documentation](docs/Ordering.md).
