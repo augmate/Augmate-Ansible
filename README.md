@@ -9,12 +9,17 @@
 
 ####Installing Ansible
 
-Activate your virtualenv.  
+(Optional, recommended) Activate your virtualenv.  
 
 Install Ansible: 
 
 	pip install ansible
-	
+		
+Make sure that you received version 1.6.2 or newer:
+
+	ansible --version
+	>ansible 1.6.2
+
 	
 By default, Ansible uses '/etc/ansible/hosts' as its inventory of machines to configure.
 
