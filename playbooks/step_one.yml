@@ -55,11 +55,24 @@
       ufw: rule=allow port=22 proto=tcp
       ufw: state=reloaded
 
+    #likely unneccessary
+    #check out this if the role isn't idempotent
+    #http://www.hashbangcode.com/blog/adding-iptables-rules-ansible
+    #- name: save iptables
+    #  command: iptables-save
+    #  sudo: true
+
+    - name: restart iptables
+      service: name=ufw state=restarted
+      sudo: true
+
     # restart the ssh srver on every run, not just the first
     - name: restart ssh
       service: name=ssh state=restarted
 
+    - set_fact:
+        step_one: 'OK'
+
   handlers:
     - name: restart ssh
-      service: name=ssh state=restarted      
- 
+      service: name=ssh state=restarted
