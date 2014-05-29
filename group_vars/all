@@ -1,0 +1,41 @@
+---
+# file: group_vars/all
+# Variables that are common to all Playbooks on all hosts.
+
+human_users: [
+{
+    username: "alex",
+    comment: "Alex Barkan",
+    uid: "10002",
+    groups: "admin,developers",
+    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVHKa/yAbjogkFPvCop+9BP4g6RndGFxy1PozGVoaOi611jHkamhmoP9MoVSBZh6myw1eUH2dlhqDWSSY/QI0FjjZkaaE792eaX/TaTvowWvsXvpLslBett3K/22/OIi5af0r7PJSpmjiexCimQiphgIAKpRVgc2/MxJ6L7Tj+3UpgsEGWyswFJqenqFgt4at1hOIF2l5A/DxP/VfqklIY77MYXtXca3zN4pPXxP5wmOvw9bvrsxAfjqWc60JRVOT+z1EU2oS75ZBqUbSbhk6REm67rY5Zzab+UgK8mzA0Mdq1FzansOBkCgK5uf8910GwwAYCWjbUQJFfM6KBfkAL placeholder@augmate.com"
+},
+{
+    username: "drew",
+    comment: "Drew Austin",
+    uid: "10003",
+    groups: "admin,developers",
+    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVHKa/yAbjogkFPvCop+9BP4g6RndGFxy1PozGVoaOi611jHkamhmoP9MoVSBZh6myw1eUH2dlhqDWSSY/QI0FjjZkaaE792eaX/TaTvowWvsXvpLslBett3K/22/OIi5af0r7PJSpmjiexCimQiphgIAKpRVgc2/MxJ6L7Tj+3UpgsEGWyswFJqenqFgt4at1hOIF2l5A/DxP/VfqklIY77MYXtXca3zN4pPXxP5wmOvw9bvrsxAfjqWc60JRVOT+z1EU2oS75ZBqUbSbhk6REm67rY5Zzab+UgK8mzA0Mdq1FzansOBkCgK5uf8910GwwAYCWjbUQJFfM6KBfkAL placeholder@augmate.com"
+},
+{
+    username: "johny",
+    comment: "Johny Urgiles",
+    uid: "10004",
+    groups: "admin,developers",
+    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVHKa/yAbjogkFPvCop+9BP4g6RndGFxy1PozGVoaOi611jHkamhmoP9MoVSBZh6myw1eUH2dlhqDWSSY/QI0FjjZkaaE792eaX/TaTvowWvsXvpLslBett3K/22/OIi5af0r7PJSpmjiexCimQiphgIAKpRVgc2/MxJ6L7Tj+3UpgsEGWyswFJqenqFgt4at1hOIF2l5A/DxP/VfqklIY77MYXtXca3zN4pPXxP5wmOvw9bvrsxAfjqWc60JRVOT+z1EU2oS75ZBqUbSbhk6REm67rY5Zzab+UgK8mzA0Mdq1FzansOBkCgK5uf8910GwwAYCWjbUQJFfM6KBfkAL placeholder@augmate.com"
+},
+{
+    username: "pasha",
+    comment: "Pasha Galbreath",
+    uid: "10005",
+    groups: "admin,developers",
+    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVHKa/yAbjogkFPvCop+9BP4g6RndGFxy1PozGVoaOi611jHkamhmoP9MoVSBZh6myw1eUH2dlhqDWSSY/QI0FjjZkaaE792eaX/TaTvowWvsXvpLslBett3K/22/OIi5af0r7PJSpmjiexCimQiphgIAKpRVgc2/MxJ6L7Tj+3UpgsEGWyswFJqenqFgt4at1hOIF2l5A/DxP/VfqklIY77MYXtXca3zN4pPXxP5wmOvw9bvrsxAfjqWc60JRVOT+z1EU2oS75ZBqUbSbhk6REm67rY5Zzab+UgK8mzA0Mdq1FzansOBkCgK5uf8910GwwAYCWjbUQJFfM6KBfkAL placeholder@augmate.com"
+},
+{
+    username: "tfisher",
+    comment: "Tristan Fisher",
+    uid: "10006",
+    groups: "admin,developers",
+    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC60ijF+3UVFOk8D4KdiAFmaQgRUX3h5DHIjFPAj8eeA6YVssSFK1VZssjeL0fULR4HctUDR8qJBuxClFTY8/Uzu3k5/EvQYuMTUMgh0bmWsBBeTYP2KjbqnU+lLffZjDcQiF7r9CAI1fuJ6rCPSCfuMF2bbkAauqd4nQmkOMlJPy6Yg8wEJAQzcBZjU0ph7HuaJr95Nl6u9BMDmgZG8o5oJrIubSY7TUZLLciw0Zt7pWV9ONR9Pni+iMdnONVSVFVh6QRXZyK9lnJtCs3b9dsS5lj2KRRWJeBtfXfa42yDx80YC8DxDSgLdQLGVknB3nltDFOQpDdBYRVgqxfT+YOl tristan@brooklyndatalab.com" 
+}
+]
