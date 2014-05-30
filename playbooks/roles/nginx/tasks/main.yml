@@ -11,10 +11,11 @@
   file: path=/etc/nginx/sites-enabled/default state=absent
 
 - name: Remove the index.html from the default install
-  #command: rm /usr/share/nginx/www/index.html
-  file: path=/usr/share/nginx/www/index.html state=absent
+  #command: rm /usr/share/nginx/html/index.html
+  file: path=/usr/share/nginx/html/index.html state=absent
   register: remove_html
   ignore_errors: yes
 
-- debug: msg="Removing the default index file failed."
+# This is helpful to know either way
+- debug: msg="Removing the default index file failed or it was otherwise absent."
   when: remove_html|failed 
