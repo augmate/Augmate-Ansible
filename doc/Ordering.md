@@ -48,7 +48,11 @@ Add other users that are allowed to SSH to the server, install common packages, 
 
 This is the stage in which the server will become a worker machine. 
 
+Check out the documented roles for more specific information:
+#####[Documented Playbooks](./Documented_Playbooks.md)
 
+
+------
 
 ######Important things to note: 
 
