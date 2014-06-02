@@ -12,8 +12,13 @@
 
 ####Installing Python Libs on Ubuntu
 
+
+	python --version
+Make sure Python version > 2.7
+	
 	sudo apt-get python-dev
 	sudo apt-get python-virtualenv
+
 
 ####Installing Ansible
 
