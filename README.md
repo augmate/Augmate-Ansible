@@ -56,9 +56,9 @@ to use a different SSH port (e.g. 2022), use `hostname.example.org:2022`.
 
 ####Add your SSH key to the remote box and get sudo
 
-Run the `step_one.yml` playbook against your new server:
+Run the `step_one.yml` playbook against your new server.  This playbook creates an admin user and starts the configuraiton process:
 
-	ansible-playbook -i inventory/development.hosts playbooks/step_two.yml -vv -u some_user_with_sudo --ask-pass --ask-sudo-pass
+	ansible-playbook -i inventory/development.hosts playbooks/step_one.yml -vv -u some_user_with_sudo --ask-pass --ask-sudo-pass
 
 Where -u is the name of the user that has root access or can _sudo_ to the _root_ user (if the user is root, remove the --ask-sudo-pass switch).  For EC2, the most likely option will `-u ec2-user --private-key=~/.ssh/my_amazon_private_key.pem `.
 
