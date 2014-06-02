@@ -14,7 +14,8 @@
 
 
 	python --version
-Make sure Python version > 2.7
+	
+Make sure your Python version is greater than > 2.7.5.  If not, stop now and get a newer version of Python.
 	
 	sudo apt-get python-dev
 	sudo apt-get python-virtualenv
