@@ -9,6 +9,12 @@
 - Install Python's 'virtualenv'
 - An SSH client
 
+
+####Installing Python Libs on Ubuntu
+
+	sudo apt-get python-dev
+	sudo apt-get python-virtualenv
+
 ####Installing Ansible
 
 (Optional, recommended) Activate your virtualenv.
