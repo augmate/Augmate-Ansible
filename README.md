@@ -20,10 +20,19 @@ Make sure your Python version is greater than > 2.7.5.  If not, stop now and get
 	sudo apt-get python-dev
 	sudo apt-get python-virtualenv
 
-
 ####Installing Ansible
 
-(Optional, recommended) Activate your virtualenv.
+(Optional, recommended) Activate your virtualenv.  I recommend putting your virtualenv in a directory named 'env' where you stored this repo.
+
+e.g. 
+
+	augmate_ansible/
+		├── env
+
+Make a virtualenv and activate it:
+
+	virtualenv env 
+	source env/bin/activate
 
 Install Ansible:
 
