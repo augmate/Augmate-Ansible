@@ -1,0 +1,17 @@
+# file: inventory/production
+# we probably won't use this -- there's an ec2.py plugin that allows us to use 
+# ec2 as our source of truth
+
+[api-servers]
+
+[teamcity]
+
+
+#[api-servers:children]
+#api-servers
+#api-servers-us-west-2
+
+
+#[aws-us-east1:children]
+#us-east-1-api-servers
+#us-east-1-databaseservers

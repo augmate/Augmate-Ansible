@@ -1,0 +1,16 @@
+[webservers]
+ec2_www[01:10].example.org
+
+
+[databases]
+ec2_pgsql-[a:f].example.org
+
+[ec2:children]
+webservers
+databases
+
+[cloud_hosts]
+ec2
+
+#to use an alternate user for some host
+#some.example.org ansible_ssh_user=admin
