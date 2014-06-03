@@ -1,0 +1,31 @@
+---
+# file: aws_swap/tasks/main.yml
+sudo: True
+
+#create a swap file on /mnt/swap for EC2 instances.
+
+#TODO before using -- make this idempotent, parameterize the size and location
+
+- name: Create swap space
+  command: "dd if=/dev/zero of=/mnt/{{ swap_directory }} bs=1M count={{ swap_size_in_megabytes }}"
+  when: ansible_swaptotal_mb < 1
+
+- name: Make swap
+  command: "mkswap {{ swap_directory }}"
+  when: ansible_swaptotal_mb < 1
+
+- name: Add to fstab
+  action: "lineinfile dest=/etc/fstab regexp={{ swap_directory }} line={{ swap_directory }} none swap sw 0 0 state=present"
+
+- name: ensure permissions on swapdir 
+  file: 
+    path="{{ swap_directory }}"
+    owner=root
+    group=root
+    state=directory
+    mode=0600
+  notify:
+    - turn swap on
+
+- name: Set swapiness
+  shell: echo 0 | sudo tee /proc/sys/vm/swappiness

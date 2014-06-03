@@ -1,0 +1,4 @@
+---
+#file: aws_swap/defaults/main.yml
+swap_directory:  "/mnt/swap"
+swap_size_in_megabytes: 1024
