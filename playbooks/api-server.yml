@@ -1,0 +1,28 @@
+---
+# file: playbooks/api-servers.yml
+- hosts: api-servers
+  sudo: True
+
+  #vars:
+  #  variables are in defaults/main.yml
+
+  tasks:
+
+    - debug: msg="Preparatory work done.  Restarting nginx."
+
+    #And once all the preparatory work is done
+    - name: restart nginx via the handler
+      debug: restarting nginx with nodejs api loaded 
+      notify: 
+        - restart nginx
+
+    #there's a post-task action that we could use to test, not sure if 
+    #it's better to do this here or as part of the build box 
+
+  roles: 
+    - { role: api_nginx_nodejs } #calls nginx role
+
+  #pull in the nginx role's handlers
+  #these are here by default, but be explicit
+  handlers:
+    - include: ./roles/nginx/handlers/main.yml
