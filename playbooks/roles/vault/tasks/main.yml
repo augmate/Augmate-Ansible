@@ -1,0 +1,18 @@
+---
+# file: vault/tasks/main.yml
+- name: Make sure the /etc/ansible directory exists
+  file: 
+    path="/etc/ansible"
+    owner=root
+    group=root
+    mode=0750
+    state=directory
+
+- name: Copy the .vault_pass.txt to the remote server
+  copy: 
+    #TODO: make the path a variable in group_vars
+    src=../../../.vault_pass.txt
+    dst=/etc/ansible/.vault_pass
+    owner=root
+    group=root
+    mode=0400
