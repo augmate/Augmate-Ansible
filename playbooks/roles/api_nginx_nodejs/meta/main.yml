@@ -1,0 +1,5 @@
+---
+#file api_nginx_nodejs/meta/main.yml
+dependencies:
+  - { role: vault } #puts .vault_pass.txt in place for encrypted files
+  - { role: nginx }
