@@ -21,6 +21,6 @@ e.g. the `nginx` role:
 + provides the handlers needed to restart/reload/etc the service from init
 + and stops the nginx server -- but, and this is important, because the default action is to start
 
-
+-----
 
 [Back to the list of Documented Roles](./Roles.md) 
