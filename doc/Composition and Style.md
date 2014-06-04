@@ -1,6 +1,21 @@
 Composition and Style
 ---------------------
 
+###On handling encrypted ('vaulted') files:
+
+If your role requires use of an encrypted file (say, a database password or a [deploy key](https://help.github.com/articles/managing-deploy-keys)), include the `vault` role in the meta/main.yml dependencies section of the role you are writing.
+
+e.g. 
+
+	---
+	#file: example/meta/main.yml
+
+	dependencies:
+	  - { role: vault }
+ 
+The `vault` role ensures that the .vault_pass.txt file in the base of the ansible repo is copied to the target server.
+
+
 ###Playbooks
 
 Playbooks are to be considered as the units of work in the Ansible system.  They should not do "too much" work, and instead, should be more concerned with the coordination of roles.
