@@ -6,6 +6,11 @@
 
 ####Note that most playbooks make extensive use of roles, which are documented on the [Roles Page](./Roles.md).
 
+
+Related (and important): 
+
++ Working with [Ansible Vault (encrypted files)](./Vault.md)
+
 -----
 
 ###step_one / step_two
