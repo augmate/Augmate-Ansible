@@ -1,0 +1,5 @@
+---
+#file api_nginx_nodejs/handlers/main.yml
+
+#nginx handlers exist in the base role
+
