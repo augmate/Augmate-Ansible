@@ -8,7 +8,7 @@ human_users: [
     comment: "Alex Barkan",
     uid: "10002",
     groups: "admin,developers",
-    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVHKa/yAbjogkFPvCop+9BP4g6RndGFxy1PozGVoaOi611jHkamhmoP9MoVSBZh6myw1eUH2dlhqDWSSY/QI0FjjZkaaE792eaX/TaTvowWvsXvpLslBett3K/22/OIi5af0r7PJSpmjiexCimQiphgIAKpRVgc2/MxJ6L7Tj+3UpgsEGWyswFJqenqFgt4at1hOIF2l5A/DxP/VfqklIY77MYXtXca3zN4pPXxP5wmOvw9bvrsxAfjqWc60JRVOT+z1EU2oS75ZBqUbSbhk6REm67rY5Zzab+UgK8mzA0Mdq1FzansOBkCgK5uf8910GwwAYCWjbUQJFfM6KBfkAL placeholder@augmate.com"
+    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzW4ys95Ec8A9dbkJrl2S3YjLvK0UELPbyKo/IE8gK/r84N3E4YSX3MHKmSGxjmm5BFKY65VqcfowLBjb/eqXtJMBebipTJTvvMBKu73yoZlicn3Q5iwmN0Owy5LpZO8YzJxIGSMnHdKAPVnh342GwXhxi9Gav9vd24rTPbHKDFOCQ+gNP32TrEiVsmsm27gjp3Lm8QFhqA+1Lt96aEKH7zuNwRm2eqrAUiwwY+Pz8GjBqksGmEtnnJC/cMZsQdjmtNjCUXLKIobGaLEFdAUIMJjevCDlPs5dD/YtkRdO/MC1g25Oejhww9adKZtbcBKsRO5PkZXq/GP+H0zj8hXw1 aleckz@warbird"
 },
 {
     username: "drew",
