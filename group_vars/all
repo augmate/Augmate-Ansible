@@ -22,7 +22,7 @@ human_users: [
     comment: "Johny Urgiles",
     uid: "10004",
     groups: "admin,developers",
-    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVHKa/yAbjogkFPvCop+9BP4g6RndGFxy1PozGVoaOi611jHkamhmoP9MoVSBZh6myw1eUH2dlhqDWSSY/QI0FjjZkaaE792eaX/TaTvowWvsXvpLslBett3K/22/OIi5af0r7PJSpmjiexCimQiphgIAKpRVgc2/MxJ6L7Tj+3UpgsEGWyswFJqenqFgt4at1hOIF2l5A/DxP/VfqklIY77MYXtXca3zN4pPXxP5wmOvw9bvrsxAfjqWc60JRVOT+z1EU2oS75ZBqUbSbhk6REm67rY5Zzab+UgK8mzA0Mdq1FzansOBkCgK5uf8910GwwAYCWjbUQJFfM6KBfkAL placeholder@augmate.com"
+    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC8cyaqrPcF0Nwi4ozpDp+6DcIata0fEjy/NhSC80iS9dGnafOjgfGTr3sgCTTsrj28ym6wo8nfWBLv8RpdN+4Sx5BJ8WuH39yJ3G86rt2JKdbijeSkDXijis1kt7lkg8VmGYsLOJA8Mkrw38Qjd3zopxJlxfACC1NrpJYz3DJCwUlzNiB5VkE4P8qFwePse3VFFdma9977DwvNMx/QmWreRfFXCIlcIG2zsPmdQ0d0KSbB5d8gyF/QfueVQAlaq6kALlmDyaXLKZHqDJgvw1hxK5ZHcBDfhMf0eGGkgpH5ceBNkK40REspnq1Ul26UhCaobCfr2c3zURsiObU0TvCh jurgiles@Johnys-MacBook-Air.local"
 },
 {
     username: "pasha",
