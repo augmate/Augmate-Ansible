@@ -29,7 +29,7 @@ human_users: [
     comment: "Pasha Galbreath",
     uid: "10005",
     groups: "admin,developers",
-    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVHKa/yAbjogkFPvCop+9BP4g6RndGFxy1PozGVoaOi611jHkamhmoP9MoVSBZh6myw1eUH2dlhqDWSSY/QI0FjjZkaaE792eaX/TaTvowWvsXvpLslBett3K/22/OIi5af0r7PJSpmjiexCimQiphgIAKpRVgc2/MxJ6L7Tj+3UpgsEGWyswFJqenqFgt4at1hOIF2l5A/DxP/VfqklIY77MYXtXca3zN4pPXxP5wmOvw9bvrsxAfjqWc60JRVOT+z1EU2oS75ZBqUbSbhk6REm67rY5Zzab+UgK8mzA0Mdq1FzansOBkCgK5uf8910GwwAYCWjbUQJFfM6KBfkAL placeholder@augmate.com"
+    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCqICqwKA8KdRZ8RtFXSssjzWmZ1YBegJB+I0VpRcVfNFMg35xLnEXz20PeQBgFWj5EgiQmof9PskIASaiqfjc1e/iqU9mPioZcPYeBGI4gvCpTW0nFJBM+1UpQraBqroQM8phElDLVLDdMruU3QNvl/GOJ8F1oUPVKR3kw9LoPppYPmCY51yQxHYOjQHpb12rmz8Ba5lP3Y4uAp5Qh0h5M0QttaKWCVvNowx3Y96eChPWdoCBTjgy8MGYJPwuJKtRUZxK9yK8L3laJypaEDD8JSsBc80O4revrpH+kYj+oJiBaaNpCvbrN6XhMUPFT3BGaCTOrZgDjpxanQjA7fwoF"
 },
 {
     username: "tfisher",
