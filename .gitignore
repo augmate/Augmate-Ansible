@@ -1,5 +1,9 @@
 *.py[cod]
 
+# Ansible vault password file.
+# It would make me very sad to see this in the repo.
+.vault_pass.txt
+
 # Environment/Virtualenv
 env/*
 
