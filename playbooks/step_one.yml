@@ -69,6 +69,6 @@
     - set_fact:
         step_one: 'OK'
 
-  handlers:
+  #handlers:
     - name: restart ssh
       service: name=ssh state=restarted
