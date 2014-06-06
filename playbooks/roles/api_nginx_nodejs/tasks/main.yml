@@ -1,0 +1,43 @@
+---
+#file api_nginx_nodejs/tasks/main.yml
+
+# Make sure the base role was executed.
+
+#Deploy key decryption is enabled by the vault role
+
+- name: get deploy key for api 
+  file: 
+
+- name: check nginx is installed
+  apt: 
+    pkg=nginx
+    state=present
+
+
+  # Don't start Nginx at any point in this task.  
+  # Leave that up to the Playbook  
+- name: replace nginx.conf with our templated version
+  template:
+    src=templates/nginx.conf.j2
+    dest=/etc/nginx/nginx.conf
+    validate="nginx -t -c %s"
+    owner="{{ nginx_user }}"
+    group="{{ nginx_group }}"
+    mode=0444
+
+- name: write nginx_api_nodejs.conf to /etc/nginx/conf.d/sites-available
+  template:
+    src=templates/nginx_api_nodejs.conf.j2
+    dest=/etc/nginx/sites-available/api-server
+    validate="nginx -t -c %s"
+    owner="{{ nginx_user }}"
+    group="{{ nginx_group }}"
+    mode=0444
+
+- name: symlink api-server to nginx's sites-enabled dir
+  file: 
+    src=/etc/nginx/sites-enabled/api-server
+    path=/etc/nginx/sites-available/api-server 
+    state=link
+
+- include: nodejs.yml
