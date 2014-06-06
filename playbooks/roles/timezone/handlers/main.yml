@@ -1,0 +1,4 @@
+---
+#  file : timezone/defaults/main.yml
+- name: update tzdata
+  command: dpkg-reconfigure --frontend noninteractive tzdata
