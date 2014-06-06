@@ -1,0 +1,47 @@
+---
+# file: api_nginx_nodejs/tasks/nodejs.yml
+
+
+    - git clone the code 
+
+    - name: add the node service to systemd 
+
+    - name: start the node service using init
+
+
+    npm install
+    npm install pm2@latest -g #pm2 is a process manager that runs node, it has web ui and email notifications
+
+
+    - name: Make an SSL directory for the API
+      file: 
+        path="essential/private"
+        owner=root
+        group=root
+        state=directory
+        mode=0750
+
+    - name: Genererate a self-signed cert 
+      command: openssl req -nodes -new -x509 -keyout essential/private/private.key -out essential/signedcerts/STAR_api_augmate_com.crt -subj "/C=US/ST=New York/L=New York City/O=Augmate Corporation/OU=Testing/CN=testing-auth.api.augmate.com"
+npm start
+npm test
+
+
+
+    '''
+    api_nginx_nodejs will install nginx, and place a "sites-conf" file into the sites-available, symlinking it to sites-enabled 
+    the webserver into sites-available, with a symlink to sites-enabled.
+
+    installs nodejs 
+    adds service to systemd, starts it using init 
+    npm installs 
+ 
+    mkdir essential/private
+    openssl req -nodes -new -x509 -keyout essential/private/private.key -out essential/signedcerts/STAR_api_augmate_com.crt -subj "/C=US/ST=New York/L=New York City/O=Augmate Corporation/OU=Testing/CN=testing-auth.api.augmate.com"
+    npm start
+    npm test
+
+
+    I forget the syntax, but I believe there is
+    also a "post_all_other_tasks" action
+    '''
