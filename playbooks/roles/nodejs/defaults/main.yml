@@ -1,0 +1,17 @@
+---
+#file: nodejs/defaults/main.yml
+nodejs_path: /usr/bin/
+npm_path: /usr/bin/
+version_nodejs: "v0.10.25"
+version_npm: "1.3.10"
+
+nodejs_base_url: "http://nodejs.org/dist/{{version_nodejs}}/"
+nodejs_tar_filename: "node-{{version_nodejs}}.tar.gz"
+nodejs_tarball_url: "{{nodejs_base_url}}{{nodejs_tar_filename}}"
+nodejs_shasum_url: "{{nodejs_base_url}}SHASUMS.txt"
+nodejs_tmp_dir: "/tmp/"
+
+#nodejs_global_packages:
+#  - nodemon
+#  - debug
+#  - foreman
