@@ -1,0 +1,96 @@
+---
+#file: nodejs/tasks/main.yml
+
+
+'''
+WORK IN PROGRESS.  DO NOT USE.
+'''
+
+- name: install packages nodejs and npm
+  apt: 
+    pkg={{ item }} state=present
+    state=present
+  with_items:
+    - nodejs
+    - npm
+
+
+'''
+Check if we have the installed versions of the nodejs packages that we expect.  
+If the package manager does not have the version, go to the source.
+'''
+
+# nodejs 
+
+- name: Check installed version of nodejs
+  shell: /usr/bin/test "$({{nodejs_path}}/nodejs --version 2> /dev/null)" = {{version_nodejs}}
+  register: nodejs_version_installed
+  ignore_errors: True
+  changed_when: "nodejs_version_installed.rc == 1"
+
+
+
+'''
+Need something to latch onto for a failed aptitude install of a specific version
+
+'''
+
+- name: nodejs: try to install 0.10.25~dfsg2-2ubuntu1 from aptitude if the version check failed
+  apt: pkg="0.10.25~dfsg2-2ubuntu1" state=present
+  register: aptitude_output
+  when: nodejs_version_installed
+  changed_when: "aptitude_output.SOMETHING == VALUE"
+
+- debug: msg="{{aptitude_output}}" 
+
+- name: Download nodejs from source
+  get_url: url={{nodejs_tarball_url}} dest={{nodejs_tmp_dir}}/{{nodejs_tar_filename}}
+  when: aptitude_output.SOMETHING == VALUE 
+
+- name: Verify SHASUM of nodejs {{version_nodejs}}
+  shell: curl {{nodejs_shasum_url}} | grep {{nodejs_tar_filename}} | sha1sum -c chdir={{nodejs_tmp_dir}}
+  when: aptitude_output.SOMETHING == VALUE 
+
+- name: Unpack nodejs tar 
+  command: tar -xvzf {{nodejs_tar_filename}} chdir={{nodejs_tmp_dir}}  
+  when: aptitude_output.SOMETHING == VALUE 
+
+
+- name: Compile and install nodejs {{nodejs_version_tag}}
+  shell: ./configure --prefix={{nodejs_path}} && make && make install chdir={{nodejs_tmp_dir}}{{nodejs_file_tag}}
+  sudo: true
+  when: aptitude_output.SOMETHING == VALUE 
+
+
+
+
+
+
+
+
+'''
+
+################################################################################
+################################################################################
+
+'''
+
+
+### npm 
+
+- name: Check installed version of npm
+  shell: /usr/bin/env test "$({{npm_path}}npm --version 2>/dev/null)" = {{version_npm}}
+  register: npm_version_installed
+  ignore_errors: True
+  changed_when: "npm_version_installed.rc == 1"
+
+
+- name: npm: try to install 1.3.10~dfsg-1 from aptitude if the version check failed
+  apt: pkg="1.3.10~dfsg-1" state=present
+  register: aptitude_output
+
+- name: get npm from source
+  shell: npm --version
+  ignore_errors: True 
+  when: 
+

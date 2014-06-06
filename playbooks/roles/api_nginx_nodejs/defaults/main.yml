@@ -1,5 +1,8 @@
 ---
 # file: api_nginx_nodejs/deaults/main.yml
+api_dest_folder: "/srv/api"
+api_git_repo: "https://github.com/augmate/api.git"
+
 nginx_user: www-data
 nginx_group: www-data
 
@@ -8,6 +11,8 @@ user: www-data
 
 #http://nginx.org/en/docs/http/server_names.html
 nginx_server_name: api.augmate.*
+nginx_root: /srv/api/
+
 
 http_port: 80
 https_port: 443

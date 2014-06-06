@@ -1,8 +1,15 @@
 ---
 # file: api_nginx_nodejs/tasks/nodejs.yml
 
+    #node and npm are installed by the dependencies
 
-    - git clone the code 
+    - name: get the git deployment key for API onto this box.
+
+    - name: put the git hostkey in place so we don't have to throw
+      debug: msg="accept_hostkey=no" 
+
+    - name: git clone the code 
+      git: repo={{api_git_repo}} dest={{api_dest_folder}}
 
     - name: add the node service to systemd 
 
@@ -23,8 +30,15 @@
 
     - name: Genererate a self-signed cert 
       command: openssl req -nodes -new -x509 -keyout essential/private/private.key -out essential/signedcerts/STAR_api_augmate_com.crt -subj "/C=US/ST=New York/L=New York City/O=Augmate Corporation/OU=Testing/CN=testing-auth.api.augmate.com"
-npm start
-npm test
+
+
+    #npm start
+    #npm test
+
+    #- name: NPM install dependencies
+      #npm: name={{item}} #global=yes
+      #with_items:
+      #  pm2
 
 
 
