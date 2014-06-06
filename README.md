@@ -71,7 +71,7 @@ Run the `step_one.yml` playbook against your new server.  This playbook creates 
 
 Where -u is the name of the user that has root access or can _sudo_ to the _root_ user (if the user is root, remove the --ask-sudo-pass switch).  For EC2, the most likely option will `-u ec2-user --private-key=~/.ssh/my_amazon_private_key.pem `.
 
-_(note: If you're using a local VM (and only a test, non-production, non-public VM) and you hit a SSH key error when trying to use --ask-pass, enter `export ANSIBLE_HOST_KEY_CHECKING=False` into the command line, run step_one.yml, then `export ANSIBLE_HOST_KEY_CHECKING=True` after.)_
+_(note: If you're using a local VM (and only a test, non-production, non-public VM) and you hit a SSH key error when trying to use --ask-pass, enter `export ANSIBLE_HOST_KEY_CHECKING=False` into the command line, run step_one.yml and step_two.yml, then `export ANSIBLE_HOST_KEY_CHECKING=True` after. Or, you can run step_two.yml with `-u admin` after running step_one.)_
 
 ----
 
