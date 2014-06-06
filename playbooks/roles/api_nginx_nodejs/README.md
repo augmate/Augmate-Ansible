@@ -7,7 +7,7 @@ todo: clean this up
 Installs nginx, node.js
 
 
-role dependencies: nginx, vault
+role dependencies: nginx, nodejs, vault
 
 
  + Sets up nginx with a sites-enabled entry that reverse proxies to nodejs
