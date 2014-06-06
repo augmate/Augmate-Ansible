@@ -1,5 +1,5 @@
 # IP which nodejs is running on
-upstream app_x {
+upstream node_api {
     server 127.0.0.1:{{ node_port }};
 }
 
@@ -12,8 +12,8 @@ server {
     access_log {{ log_file_access }};
 
     location / {
-        root /var/www/x/public;
-        index index.html index.htm index.php;
+        root {{ nginx_root }};
+        index index.html index.htm;
         try_files $uri $uri/ @node;
     }
 
@@ -22,6 +22,15 @@ server {
     location @node {
         proxy_set_header Host $http_host;
         proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_pass http://app_x;
+        proxy_pass http://node_api;
     }
+
+
+    # serve static files directly
+    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico)$ {
+        access_log        off;
+        expires           30d;
+    }
+
+
 }
