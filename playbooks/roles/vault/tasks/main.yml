@@ -8,11 +8,14 @@
     mode=0750
     state=directory
 
+- debug: msg="If the next step fails, make sure you have a .vault_pass.txt
+             file present in the basedir of where you cloned the augmate_ansible repo."
+
 - name: Copy the .vault_pass.txt to the remote server
   copy: 
     #TODO: make the path a variable in group_vars
-    src=../../../.vault_pass.txt
-    dst=/etc/ansible/.vault_pass
+    src=../../../../.vault_pass.txt
+    dest=/etc/ansible/.vault_pass
     owner=root
     group=root
     mode=0400
