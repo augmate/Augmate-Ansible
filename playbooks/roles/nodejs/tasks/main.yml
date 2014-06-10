@@ -11,23 +11,24 @@
     - npm
 
 
-####################################################################################################
-# nodejs 
-
 #
 # Check if the version we pulled from aptitude is what we wanted.
 # No? Try to specify the package by version for aptitude.
 # Still not good? Pull and make from source.
 #
 
+####################################################################################################
+# nodejs 
+
 - name: Check installed version of nodejs
-  shell: /usr/bin/test "$({{nodejs_path}}/nodejs --version 2> /dev/null)" = {{version_nodejs}}
+  shell: /usr/bin/test "$({{nodejs_path}}/nodejs --version 2> /dev/null)" = "v{{version_nodejs}}"
   register: nodejs_version_installed
   ignore_errors: True
   changed_when: "nodejs_version_installed.rc == 1"
 
-- name: try to install nodejs=0.10.25~dfsg2-2ubuntu1 from aptitude if the version check failed
-  apt: pkg='nodejs=0.10.25~dfsg2-2ubuntu1' state=present
+#TODO: check if this falls in line with nodejs={{version_nodejs}}~dssg2-2ubuntu1 
+- name: try to install nodejs={{version_nodejs}} from aptitude if the version check failed
+  apt: pkg="nodejs={{version_nodejs}}" state=present
   ignore_errors: True
   register: aptitude_specific_version_install
   when: nodejs_version_installed.changed
@@ -56,5 +57,16 @@
 ####################################################################################################
 # npm 
 
-- name: say hi
-  debug: msg="hi"
+- name: Check installed version of npm
+  shell: /usr/bin/env test "$({{npm_path}}npm --version 2>/dev/null)" = {{version_npm}}
+  register: npm_version_installed
+  ignore_errors: True
+  changed_when: "npm_version_installed.rc == 1"
+
+- name: try to install {{version_npm}} from aptitude if the version check failed
+  apt: pkg="npm={{version_npm}}" state=present
+  ignore_errors: True
+  register: npm_aptitude_specific_version_install
+  when: npm_version_installed.changed
+
+
