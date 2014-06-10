@@ -1,0 +1,88 @@
+---
+#file playbooks/start.yml
+- hosts: all
+  sudo: True
+
+  vars:
+    admin_user_ssh_key: "{{ lookup('file','~/.ssh/id_rsa.pub') }}"
+    admin_user: "admin"
+    admin_group_sudoers_file_contents: "#managed by ansible\n%admin ALL=(ALL) NOPASSWD:ALL\n"
+
+  vars_files:
+    - ../group_vars/all
+
+  tasks:
+
+    # ===========================================================
+    # Configure admin user/group for running ansible, copy over key
+    # ===========================================================
+
+    - debug: msg="Creating users and groups..."
+
+    - name: add system groups 
+      group: name=cron gid=1001 state=present
+
+    - name: add developers group
+      group: name=developers gid=1002 state=present 
+
+    - name: create admin group
+      action: group 
+              name=admin
+              gid=10000
+              system=no
+
+    - name: add system users
+      user: name=cron state=present system=yes createhome=no uid=1001 state=present
+
+    - name: add human users 
+      user: 
+        name="{{ item.username }}"
+        comment="{{ item.comment }}"
+        uid="{{ item.uid }}"
+        groups="{{ item.groups }}"
+        shell="/bin/bash"
+        createhome=yes
+        state=present
+      with_items: human_users
+
+    - name: write /etc/sudoers.d/zzz_admin_group. prepend with 2-z [group] in case something goes wrong (sudoers reads in order)' 
+      copy: content="{{admin_group_sudoers_file_contents}}"
+            dest=/etc/sudoers.d/zz_admin_group
+            owner=root
+            group=root
+            mode=0400
+
+    # add user ssh keys
+    - authorized_key:
+        user="{{ item.username }}"
+        key="{{ item.ssh_public_key }}"
+      with_items: human_users
+
+    - debug: msg="Adding base packages..."
+
+    - name: 'install ufw, ntp, fail2ban'
+      action: apt pkg={{ item }} state=present
+      with_items:
+        - ufw 
+        - ntp
+        - fail2ban
+
+    - name: use ufw to set base firewall rules (rules are stored in /lib/ufw/user.rules)
+      ufw: state=enabled policy=deny
+      ufw: rule=allow port=22 proto=tcp
+      ufw: state=reloaded
+
+    #likely unneccessary
+    #check out this if the role isn't idempotent
+    #http://www.hashbangcode.com/blog/adding-iptables-rules-ansible
+    #- name: save iptables
+    #  command: iptables-save
+    #  sudo: true
+
+    - name: restart iptables
+      service: name=ufw state=restarted
+      sudo: true
+
+  #handlers:
+    - name: restart ssh
+      service: name=ssh state=restarted
