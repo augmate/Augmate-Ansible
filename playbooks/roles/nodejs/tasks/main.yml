@@ -14,6 +14,12 @@
 ####################################################################################################
 # nodejs 
 
+#
+# Check if the version we pulled from aptitude is what we wanted.
+# No? Try to specify the package by version for aptitude.
+# Still not good? Pull and make from source.
+#
+
 - name: Check installed version of nodejs
   shell: /usr/bin/test "$({{nodejs_path}}/nodejs --version 2> /dev/null)" = {{version_nodejs}}
   register: nodejs_version_installed
@@ -24,28 +30,31 @@
   apt: pkg='nodejs=0.10.25~dfsg2-2ubuntu1' state=present
   ignore_errors: True
   register: aptitude_specific_version_install
-  #when: nodejs_version_installed.changed
+  when: nodejs_version_installed.changed
 
 - name: "Print the debug output from failing to install a specific version of nodejs"
   debug: msg="{{ aptitude_specific_version_install }}"
-  when: aptitude_specific_version_install.failed
+  when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
 
 - name: Download nodejs from source
   get_url: url={{nodejs_tarball_url}} dest={{nodejs_tmp_dir}}/{{nodejs_tar_filename}}
-  when: aptitude_specific_version_install.failed
+  when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
 
 - name: Verify SHASUM of nodejs {{version_nodejs}}
   shell: curl {{nodejs_shasum_url}} | grep {{nodejs_tar_filename}} | sha1sum -c chdir={{nodejs_tmp_dir}}
-  when: aptitude_specific_version_install.failed
+  when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
 
 - name: Unpack nodejs tar 
   command: tar -xvzf {{nodejs_tar_filename}} chdir={{nodejs_tmp_dir}}  
-  when: aptitude_specific_version_install.failed
+  when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
 
 - name: Compile and install nodejs {{nodejs_version_tag}}
   shell: ./configure --prefix={{nodejs_path}} && make && make install chdir={{nodejs_tmp_dir}}{{nodejs_file_tag}}
   sudo: true
-  when: aptitude_specific_version_install.failed
+  when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
 
 ####################################################################################################
 # npm 
+
+- name: say hi
+  debug: msg="hi"
