@@ -13,9 +13,9 @@ Related (and important):
 
 -----
 
-###step_one / step_two
+###start
 
-step_one and step_two can be thought of as the "base layers" and are documented on the ["Ordering"](./Ordering.md) page.
+start as the "base layer" and is documented on the ["Ordering"](./Ordering.md) page.
 
 --
 
