@@ -2,7 +2,7 @@
 #file: nodejs/tasks/main.yml
 
 
-- name: install packages nodejs and npm
+- name: "Install packages nodejs and npm"
   apt: 
     pkg={{ item }} state=present
     state=present
@@ -20,7 +20,7 @@
 ####################################################################################################
 # nodejs 
 
-- name: Check installed version of nodejs
+- name: "Check installed version of nodejs"
   shell: /usr/bin/test "$({{nodejs_path}}/nodejs --version 2> /dev/null)" = "v{{version_nodejs}}"
   register: nodejs_version_installed
   ignore_errors: True
@@ -37,19 +37,19 @@
   debug: msg="{{ aptitude_specific_version_install }}"
   when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
 
-- name: Download nodejs from source
+- name: "Download nodejs from source"
   get_url: url={{nodejs_tarball_url}} dest={{nodejs_tmp_dir}}/{{nodejs_tar_filename}}
   when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
 
-- name: Verify SHASUM of nodejs {{version_nodejs}}
+- name: "Verify SHASUM of nodejs {{version_nodejs}}"
   shell: curl {{nodejs_shasum_url}} | grep {{nodejs_tar_filename}} | sha1sum -c chdir={{nodejs_tmp_dir}}
   when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
 
-- name: Unpack nodejs tar 
+- name: "Unpack nodejs tar"
   command: tar -xvzf {{nodejs_tar_filename}} chdir={{nodejs_tmp_dir}}  
   when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
 
-- name: Compile and install nodejs {{nodejs_version_tag}}
+- name: "Compile and install nodejs {{nodejs_version_tag}}"
   shell: ./configure --prefix={{nodejs_path}} && make && make install chdir={{nodejs_tmp_dir}}{{nodejs_file_tag}}
   sudo: true
   when: aptitude_specific_version_install is defined and aptitude_specific_version_install.failed
@@ -57,16 +57,24 @@
 ####################################################################################################
 # npm 
 
-- name: Check installed version of npm
+- name: "Check installed version of npm"
   shell: /usr/bin/env test "$({{npm_path}}npm --version 2>/dev/null)" = {{version_npm}}
   register: npm_version_installed
   ignore_errors: True
   changed_when: "npm_version_installed.rc == 1"
 
-- name: try to install {{version_npm}} from aptitude if the version check failed
+- name: "Try to install {{version_npm}} from aptitude if the version check failed"
   apt: pkg="npm={{version_npm}}" state=present
   ignore_errors: True
   register: npm_aptitude_specific_version_install
   when: npm_version_installed.changed
 
+- name: "Print the debug output from failing to install a specific version of npm"
+  debug: msg="{{ aptitude_specific_version_install }}"
+  when: npm_aptitude_specific_version_install is defined and npm_aptitude_specific_version_install.failed
+
+#https://gist.github.com/isaacs/579814
+- name: Download npm from source
+  debug: msg="npm should be installed alongside nodejs"
+  when: npm_aptitude_specific_version_install and npm_aptitude_specific_version_install.failed
 
