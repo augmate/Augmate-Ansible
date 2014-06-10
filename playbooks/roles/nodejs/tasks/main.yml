@@ -21,7 +21,7 @@
   changed_when: "nodejs_version_installed.rc == 1"
 
 - name: try to install nodejs=0.10.25~dfsg2-2ubuntu1 from aptitude if the version check failed
-  apt: pkg='nodejs=0.10.25~dfsg2-2ubuntu1___' state=present
+  apt: pkg='nodejs=0.10.25~dfsg2-2ubuntu1' state=present
   ignore_errors: True
   register: aptitude_specific_version_install
   #when: nodejs_version_installed.changed
