@@ -2,14 +2,22 @@
 #file: nodejs/tasks/main.yml
 
 
-#- #name: "Install packages nodejs and npm"
-  #apt: 
-  #  pkg={{ item }} state=present
-  #  state=present
-  #with_items:
-    #- nodejs
-    #- npm
+- name: "Install packages nodejs and npm"
+  apt: 
+    pkg={{ item }} state=present
+    state=present
+  with_items:
+    - nodejs
+    - npm
 
+#
+# TODO: finish scraping output of `aptitude versions pkg_name` to get the version, package specifier 
+# root@carrot:/usr/bin# aptitude versions npm
+# ...
+# Package npm:
+# p   1.3.10~dfsg-1                                                          trusty                                              500 
+# root@carrot:/usr/bin# aptitude install npm=1.3.10~dfsg-1
+#
 
 #
 # Check if the version we pulled from aptitude is what we wanted.
@@ -29,33 +37,66 @@
 - name: "try to install nodejs={{version_nodejs}} from aptitude if the version check failed"
   apt: pkg="nodejs={{version_nodejs}}" state=present
   ignore_errors: True
-  register: aptitude_specific_version_install
+  register: node_aptitude_specific_version_install
   when: nodejs_version_installed.changed
 
 - name: "Test if nodejs happens to be in place anyway..."
-  command: /usr/bin/test "$({{nodejs_path}}/bin/nodejs --version 2> /dev/null)" = "v{{version_nodejs}}"
+  shell: /usr/bin/test "$({{nodejs_path}}/bin/nodejs --version 2> /dev/null)" = "v{{version_nodejs}}"
   ignore_errors: True
   register: node_installed_test
 
 - name: "Print the debug output from failing to install a specific version of nodejs"
-  debug: msg="{{ aptitude_specific_version_install }}"
-  when: (aptitude_specific_version_install is defined and aptitude_specific_version_install.failed) or node_installed_test.rc == 1
+  debug: msg="{{ node_aptitude_specific_version_install }}"
+  when: (node_aptitude_specific_version_install is defined and node_aptitude_specific_version_install.failed) or node_installed_test.rc == 1
 
 - name: "Download nodejs from source"
   get_url: url={{nodejs_tarball_url}} dest={{nodejs_tmp_dir}}/{{nodejs_tar_filename}}
-  when: (aptitude_specific_version_install is defined and aptitude_specific_version_install.failed) or node_installed_test.rc == 1
+  when: (node_aptitude_specific_version_install is defined and node_aptitude_specific_version_install.failed) or node_installed_test.rc == 1
 
 - name: "Verify SHASUM of nodejs {{version_nodejs}}"
   shell: curl {{nodejs_shasum_url}} | grep {{nodejs_tar_filename}} | sha1sum -c chdir={{nodejs_tmp_dir}}
-  when: (aptitude_specific_version_install is defined and aptitude_specific_version_install.failed) or node_installed_test.rc == 1
+  when: (node_aptitude_specific_version_install is defined and node_aptitude_specific_version_install.failed) or node_installed_test.rc == 1
 
 - name: "Unpack nodejs tar"
   shell: tar -xvzf {{nodejs_tar_filename}} chdir={{nodejs_tmp_dir}}  
-  when: (aptitude_specific_version_install is defined and aptitude_specific_version_install.failed) or node_installed_test.rc == 1
+  when: (node_node_aptitude_specific_version_install is defined and node_aptitude_specific_version_install.failed) or node_installed_test.rc == 1
 
 - name: "Compile and install nodejs {{ nodejs_version_tag }}"
   shell: ./configure --prefix={{nodejs_path}} && make && make install chdir={{nodejs_tmp_dir}}{{nodejs_file_tag}}
   sudo: true
-  when: (aptitude_specific_version_install is defined and aptitude_specific_version_install.failed) or node_installed_test.rc == 1
+  when: (node_aptitude_specific_version_install is defined and node_aptitude_specific_version_install.failed) or node_installed_test.rc == 1
 
-- debug: msg={{node_installed_test.rc}}==1
+####################################################################################################
+# npm 
+
+- name: "Check installed version of npm"
+  shell: /usr/bin/env test "$({{npm_path}}/bin/npm --version 2>/dev/null)" = {{version_npm}}
+  register: npm_version_installed
+  ignore_errors: True
+  changed_when: "npm_version_installed.rc == 1"
+
+- name: "Try to install {{version_npm}} from aptitude if the version check failed"
+  apt: pkg="npm={{version_npm}}" state=present
+  ignore_errors: True
+  register: npm_aptitude_specific_version_install
+  when: npm_version_installed.changed
+
+- name: "Print the debug output from failing to install a specific version of npm"
+  debug: msg="{{ node_aptitude_specific_version_install }}"
+  when: npm_aptitude_specific_version_install is defined and npm_aptitude_specific_version_install.failed
+
+- name: "Test if npm happens to be in place anyway..."
+  shell: /usr/bin/env test "$({{npm_path}}/bin/npm --version 2>/dev/null)" = {{version_npm}}
+  ignore_errors: True
+  register: npm_installed_test
+
+# https://gist.github.com/isaacs/579814
+- name: "Download from source and install."
+  debug: msg="npm should be installed alongside a nodejs binary, but we'll install from source.. This is not the preferable approach."
+  when: (npm_aptitude_specific_version_install is defined and npm_aptitude_specific_version_install.failed) and (npm_version_installed is defined and npm_version_installed.failed)
+
+# a step above should put this in place, but here for the sake of completeness:
+- name: "Grab npm from npmjs.org/install.sh and pipe it to sh. Again, not preferred."
+  shell: curl https://www.npmjs.org/install.sh | sh
+  when: (npm_version_installed is defined and npm_version_installed.failed) and (npm_aptitude_specific_version_install is defined and npm_aptitude_specific_version_install.failed) or npm_installed_test.failed
+
