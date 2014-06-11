@@ -1,7 +1,8 @@
 ---
 #file: nodejs/defaults/main.yml
-nodejs_path: /usr/bin/
-npm_path: /usr/bin/
+#node and npm add '/bin'. setting the following to /usr will result in /usr/bin/$prog
+nodejs_path: /usr/
+npm_path: /usr/
 version_nodejs: "0.10.25"
 version_npm: "1.3.10"
 
