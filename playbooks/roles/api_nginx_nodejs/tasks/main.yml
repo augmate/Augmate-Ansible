@@ -26,7 +26,7 @@
     name="{{user}}"
     system=yes
     createhome=yes
-    group="{{user}}, www-data"
+    groups="{{user}},www-data"
     shell="/usr/sbin/nologin"
     uid=9000
 
