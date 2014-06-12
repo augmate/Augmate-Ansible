@@ -3,41 +3,89 @@
 
 # Make sure the base role was executed.
 
-#Deploy key decryption is enabled by the vault role
 
-- name: get deploy key for api 
-  file: 
+#
+# Make sure to see the meta/main.yml for dependencies.
+#
+#   - Deploy key encryption is enabled by the vault role
+#   - The nodejs role handles the DWIM version install
+#
 
-- name: check nginx is installed
-  apt: 
-    pkg=nginx
+#vars_files:
+#  - main.yml
+#  - npm.yml
+
+- name: make sure that our nginx group exists to put our machine user group into
+  group:
+    name=www-data
     state=present
+    system=yes
+
+- name: create a machine user for the deploy key and running the node service
+  user:
+    name="{{user}}"
+    system=yes
+    createhome=yes
+    group="{{user}}, www-data"
+    shell="/usr/sbin/nologin"
+    uid=9000
+
+- name: Make sure the SSH key directory exists
+  file:
+    state=directory
+    path=/home/{{user}}/.ssh/
+    owner={{user}}
+    group={{user}}
+    mode=0700
+
+- name: Make sure known_hosts file exists using 'touch' (create empty if not exists)
+  file:
+    path=/home/{{user}}/.ssh/known_hosts
+    owner={{user}}
+    group={{user}}
+    mode=0644
+    state=touch
+
+- name: Make sure that Github is in the known hosts file
+  lineinfile:
+    dest: /home/{{ user }}/.ssh/known_hosts
+    line: "{{item.value}}"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    state: present
+  with_items:
+    - { desc: 'github', value: '|1|5PbExp3HgCVCRpRx8SieErRjgUQ=|mUWQIVXQ9RnCxhO/+kdA7+aRwso= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='}
+    - { desc: 'github', value: '|1|m0feMfPwDqJkwTdQ6uzD2FZaKCM=|hW/zPy82fNoBmcTY33MtVcStJoY= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='}
+
+# This will work too, but we lose the ability to specify keys beforehand, making this less secure... Not that we're transmitting anything sensitive in this req besides repo name.
+# Leave this here as a reminder of the trade-off made.
+#- name: ssh-keyscan github.com
+#  shell: ssh-keyscan {{ api_git_repo }}
+#  register: git_repo_host_key
+#
+#- name: Add Git repo host key to known_hosts file
+#  lineinfile:
+#    create=yes
+#    dest=/home/{{user}}/.ssh/known_hosts
+#    line='{{ git_repo_host_key.stdout }}'
+#    state=present
+
+- name: Copy over private deploy key for api
+  copy:
+    src=keys/id_rsa_augmate_deploy_key
+    dest=/home/{{user}}/.ssh/id_rsa
+    owner={{user}}
+    group={{user}}
+    mode=0600
+
+- name: Copy over public deploy key for api
+  copy:
+    src=keys/id_rsa_augmate_deploy_key.pub
+    dest=/home/{{user}}/.ssh/id_rsa.pub
+    owner={{user}}
+    group={{user}}
+    mode=0640
 
 
-  # Don't start Nginx at any point in this task.  
-  # Leave that up to the Playbook  
-- name: replace nginx.conf with our templated version
-  template:
-    src=templates/nginx.conf.j2
-    dest=/etc/nginx/nginx.conf
-    validate="nginx -t -c %s"
-    owner="{{ nginx_user }}"
-    group="{{ nginx_group }}"
-    mode=0444
-
-- name: write nginx_api_nodejs.conf to /etc/nginx/conf.d/sites-available
-  template:
-    src=templates/nginx_api_nodejs.conf.j2
-    dest=/etc/nginx/sites-available/api-server
-    validate="nginx -t -c %s"
-    owner="{{ nginx_user }}"
-    group="{{ nginx_group }}"
-    mode=0444
-
-- name: symlink api-server to nginx's sites-enabled dir
-  file: 
-    src=/etc/nginx/sites-enabled/api-server
-    path=/etc/nginx/sites-available/api-server 
-    state=link
-
+- include: nginx.yml
 - include: nodejs.yml
