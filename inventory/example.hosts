@@ -12,5 +12,11 @@ databases
 [cloud_hosts]
 ec2
 
+[production]
+prod.host.example.org branch=release
+
+[staging]
+staging.host.example.org branch=staging
+
 #to use an alternate user for some host
 #some.example.org ansible_ssh_user=admin
