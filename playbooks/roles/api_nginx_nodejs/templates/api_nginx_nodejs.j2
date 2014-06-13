@@ -3,16 +3,20 @@
 
 # IP which nodejs is running on
 upstream node_api {
-    server 127.0.0.1:{{ node_port }};
+    server 127.0.0.1:{{api_node_port}};
+}
+
+events {
+        worker_connections {{nginx_worker_connections}};
 }
 
 # nginx server instance
 server {
+
     listen 80;
+    server_name {{ api_nginx_server_name }};
 
-    server_name {{ nginx_server_name }};
-
-    access_log {{ log_file_access }};
+    charset utf-8;
 
     location / {
         root {{ nginx_root }};
@@ -28,15 +32,13 @@ server {
         proxy_pass http://node_api;
     }
 
-
-    charset utf-8;
-
-
     # serve static files directly
     location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico)$ {
         access_log        off;
         expires           30d;
     }
 
+    access_log {{nginx_log_file_access}};
+    error_log {{nginx_log_file_error}};
 
 }

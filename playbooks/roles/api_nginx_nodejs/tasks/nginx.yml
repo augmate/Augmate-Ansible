@@ -18,17 +18,18 @@
     group="{{ nginx_group }}"
     mode=0444
 
+#Don't validate on the api nginx conf -- if the upstream server fails, we get a misleading error
+#about an upstream directive.
 - name: write nginx_api_nodejs.conf to /etc/nginx/conf.d/sites-available
   template:
     src=api_nginx_nodejs.j2
     dest=/etc/nginx/sites-available/api-server
-    validate="nginx -t -c %s"
     owner="{{ nginx_user }}"
     group="{{ nginx_group }}"
     mode=0444
 
 - name: symlink api-server to nginx's sites-enabled dir
   file: 
-    src=/etc/nginx/sites-enabled/api-server
-    path=/etc/nginx/sites-available/api-server 
+    path=/etc/nginx/sites-enabled/api-server
+    src=/etc/nginx/sites-available/api-server
     state=link
