@@ -3,23 +3,28 @@
 api_dest_folder: "/srv/api"
 api_git_repo: "https://github.com/augmate/api.git"
 
-nginx_user: www-data
-nginx_group: www-data
-
 user: api_user
-#user: {{ nginx_user }}
-
-#http://nginx.org/en/docs/http/server_names.html
-nginx_server_name: api.augmate.*
-nginx_root: /srv/api/
-
 
 http_port: 80
 https_port: 443
 
-worker_processes: "{{ ansible_processor_count }}"
-pid: /var/run/nginx.pid
-worker_connections: 768
 
-log_file_access: /var/log/nginx/api.log
-node_port: 3000
+#base nginx setup
+
+nginx_user: www-data
+nginx_group: www-data
+nginx_pid: /var/run/nginx.pid
+
+nginx_root: /srv/api/
+nginx_worker_processes: "{{ansible_processor_count}}"
+nginx_worker_connections: 768
+nginx_keepalive_timeout: 65
+nginx_log_file_access: /var/log/nginx/access.log
+nginx_log_file_error: /var/log/nginx/error.log
+
+#api specific variables
+
+api_node_port: 3000
+
+#http://nginx.org/en/docs/http/server_names.html
+api_nginx_server_name: api.augmate.*
