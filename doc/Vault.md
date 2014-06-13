@@ -29,7 +29,10 @@ There's going to need to be some cloak-and-dagger component to getting this work
 
 	ansible-vault edit foo.yml
 	
-	
+
+####TODO  
+   
+- How to use ansible's vault to work with encrypted files in a playbook/task/role.
 	
 ----
 
