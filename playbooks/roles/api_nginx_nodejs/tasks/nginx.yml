@@ -7,12 +7,11 @@
     pkg=nginx
     state=present
 
-
   # Don't start Nginx at any point in this task.  
   # Leave that up to the Playbook  
 - name: replace nginx.conf with our templated version
   template:
-    src=templates/nginx.conf.j2
+    src=nginx.conf.j2
     dest=/etc/nginx/nginx.conf
     validate="nginx -t -c %s"
     owner="{{ nginx_user }}"
@@ -21,7 +20,7 @@
 
 - name: write nginx_api_nodejs.conf to /etc/nginx/conf.d/sites-available
   template:
-    src=templates/nginx_api_nodejs.conf.j2
+    src=api_nginx_nodejs.j2
     dest=/etc/nginx/sites-available/api-server
     validate="nginx -t -c %s"
     owner="{{ nginx_user }}"
