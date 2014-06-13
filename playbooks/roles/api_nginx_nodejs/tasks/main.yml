@@ -96,9 +96,6 @@
     group={{user}}
     mode=0600
 
-#- name: vomit variable into a file
-#  shell: echo "{{ id_rsa_deploy_key}}" > /tmp/tester.pem
-
 - name: Copy over public deploy key for api
   copy:
     src=keys/id_rsa_deploy_key.pub
