@@ -21,6 +21,12 @@
     state=present
     system=yes
 
+- name: create group for machine user
+  group: 
+    name={{user}}
+    gid=9001
+    system=yes
+
 - name: create a machine user for the deploy key and running the node service
   user:
     name="{{user}}"
@@ -70,22 +76,36 @@
 #    line='{{ git_repo_host_key.stdout }}'
 #    state=present
 
+# doesn't work this way yet :(
+#- name: Copy over private deploy key for api
+#  copy:
+#    src=keys/id_rsa_deploy_key
+#    dest=/home/{{user}}/.ssh/id_rsa
+#    owner={{user}}
+#    group={{user}}
+#    mode=0600
+
+
+- include_vars: id_rsa_deploy_key.yml
+
 - name: Copy over private deploy key for api
   copy:
-    src=keys/id_rsa_augmate_deploy_key
+    content="{{id_rsa_deploy_key}}"
     dest=/home/{{user}}/.ssh/id_rsa
     owner={{user}}
     group={{user}}
     mode=0600
 
+#- name: vomit variable into a file
+#  shell: echo "{{ id_rsa_deploy_key}}" > /tmp/tester.pem
+
 - name: Copy over public deploy key for api
   copy:
-    src=keys/id_rsa_augmate_deploy_key.pub
+    src=keys/id_rsa_deploy_key.pub
     dest=/home/{{user}}/.ssh/id_rsa.pub
     owner={{user}}
     group={{user}}
     mode=0640
-
 
 - include: nginx.yml
 - include: nodejs.yml
