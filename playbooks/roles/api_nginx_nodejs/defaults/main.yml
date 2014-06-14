@@ -25,7 +25,7 @@ nginx_log_file_error: /var/log/nginx/error.log
 #----#
 
 #api specific variables
-
+api_user: api_user
 api_node_port: 3000
 
 #http://nginx.org/en/docs/http/server_names.html
