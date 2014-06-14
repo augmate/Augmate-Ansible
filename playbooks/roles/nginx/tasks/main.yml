@@ -1,10 +1,19 @@
 ---
+- name: check if nginx is already installed
+  shell: dpkg -s nginx
+  ignore_errors: True
+  register: nginx_installed_check
+
+- name: update cache only if nginx is not installed
+  apt:
+    update_cache=true
+  when: nginx_installed_check.rc == 1
+
 - name: nginx | install package
   apt: 
     pkg=nginx
-    state=installed
-    update_cache=true
-  notify: 
+    state=present
+  notify:
     - stop nginx
 
 - name: delete default vhost
