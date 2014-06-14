@@ -1,0 +1,3 @@
+---
+# file: openssh/vars/main.yml
+ssh_port: 22

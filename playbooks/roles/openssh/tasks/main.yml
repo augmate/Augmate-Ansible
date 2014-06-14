@@ -1,0 +1,34 @@
+---
+#file openssh/tasks/main.yml
+  vars_file:
+    - vars/main.yml
+
+  tasks:
+    - name: OpenSSH | Make sure we have OpenSSH installed
+      apt: 
+        pkg: "{{item}}"
+        state: present
+      with_items: ["openssh-server"]
+
+    - name: create default key directory
+      file:
+        dest=/etc/ssh/authorized_keys
+        owner=root
+        group=root
+        mode=0644
+        state=directory
+
+    - name: OpenSSH | Put configuration file in place, validate, restart ssh
+      template:
+        src=etc_ssh_sshd_config.j2
+        dest=/etc/ssh/sshd_config
+        owner=root
+        group=root
+        mode=0755
+        validate='/usr/sbin/sshd -T -f %s'
+      notify:
+        - restart ssh
+  #defined in handlers/
+  #handlers:
+  #  - name: restart sshd
+  #    service: name=sshd state=restarted
