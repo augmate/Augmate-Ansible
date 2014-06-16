@@ -30,6 +30,32 @@
   with_items:
     - pm2
 
+- name: Make sure we have an /etc/ssl dir to put our cert and key into for mongodb
+  file:
+    state=directory
+    path=/etc/ssl/
+    owner={{user}}
+    group={{user}}
+    mode=0750
+
+- name: Put our mongodb cert in place
+  copy:
+    src=keys/id_rsa_deploy_key.pub
+    dest=/etc/ssl/mongodb.cert
+    owner={{user}}
+    group={{user}}
+    mode=0640
+
+- include_vars: mongodb_key.yml
+
+- name: Put our mongodb (encrypted) key in place
+  copy:
+    content="{{mongodb_key}}"
+    dest=/etc/ssl/mongodb.key
+    owner={{user}}
+    group={{user}}
+    mode=0640
+
 #- name: check that our required node modules [ only present, no constraint on version ]
 #  npm:
 #    name: "{{item}}"
