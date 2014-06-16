@@ -22,7 +22,7 @@
   sudo: yes
   sudo_user: "{{api_user}}"
 
-- name: install our required node modules
+- name: install our required node modules [ present, and *latest* version ]
   npm:
     name: "{{item}}"
     state: latest
@@ -30,5 +30,10 @@
   with_items:
     - pm2
 
-
-
+#- name: check that our required node modules [ only present, no constraint on version ]
+#  npm:
+#    name: "{{item}}"
+#    state: present
+#    global: yes
+#  with_items:
+#    -
