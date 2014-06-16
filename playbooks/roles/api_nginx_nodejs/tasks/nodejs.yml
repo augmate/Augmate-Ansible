@@ -21,3 +21,14 @@
     force=yes
   sudo: yes
   sudo_user: "{{api_user}}"
+
+- name: install our required node modules
+  npm:
+    name: "{{item}}"
+    state: present
+    global: yes
+  with_items:
+    - pm2
+
+
+
