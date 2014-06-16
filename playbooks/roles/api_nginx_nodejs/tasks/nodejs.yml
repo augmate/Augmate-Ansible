@@ -25,7 +25,7 @@
 - name: install our required node modules
   npm:
     name: "{{item}}"
-    state: present
+    state: latest
     global: yes
   with_items:
     - pm2
