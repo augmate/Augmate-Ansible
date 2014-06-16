@@ -74,5 +74,18 @@
 #  with_items:
 #    -
 
+- name: "Download nodejs from source"
+  get_url: url={{nodejs_tarball_url}} dest={{nodejs_tmp_dir}}/{{nodejs_tar_filename}}
+  when: (node_aptitude_specific_version_install is defined and node_aptitude_specific_version_install.failed) or node_installed_test.rc == 1
 
-#http://downloads.10gen.com/linux/mongodb-enterprise-shell_2.6.1_amd64.deb
+- include_vars: mongodb.yml
+
+- name: "Get mongodb shell tools"
+  get_url:
+    url="{{mongodb_shell_url}}"
+    dest="/tmp/{{mongodb_shell_version}}".deb
+    sha256sum="{{mongodb_shell_sha256sum}}"
+
+- name: "Install mongodb shell tools"
+  apt:
+   deb="/tmp/{{mongodb_shell_version}}".deb
