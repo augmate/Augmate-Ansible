@@ -56,6 +56,16 @@
     group={{user}}
     mode=0640
 
+- include_vars: api_wildcard_key.yml
+
+- name: Put our wildcard (*.api.augmate.net) in place for the API server
+  copy:
+    content="{{api_wildcard_key}}"
+    dest="{{api_nginx_root}}"/essential/signedcerts/STAR_api_augmate_net.key
+    owner={{user}}
+    group={{user}}
+    mode=0440
+
 #- name: check that our required node modules [ only present, no constraint on version ]
 #  npm:
 #    name: "{{item}}"
