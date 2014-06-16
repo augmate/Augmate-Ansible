@@ -40,7 +40,7 @@
 
 - name: Put our mongodb cert in place
   copy:
-    src=keys/id_rsa_deploy_key.pub
+    src=keys/mongodb.cert
     dest=/etc/ssl/mongodb.cert
     owner={{user}}
     group={{user}}
@@ -63,3 +63,6 @@
 #    global: yes
 #  with_items:
 #    -
+
+
+#http://downloads.10gen.com/linux/mongodb-enterprise-shell_2.6.1_amd64.deb
