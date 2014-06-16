@@ -1,0 +1,6 @@
+---
+#file: api_nginx_nodejs/vars/mongodb.yml
+
+mongodb_shell_version: mongodb-enterprise-shell_2.6.1
+mongodb_shell_url: http://downloads.10gen.com/linux/{{mongodb_shell_version}}_amd64.deb
+mongodb_shell_sha256sum: "b83a44bc06d602ffcab0638f63c38b15c99c1f37b2bebed8c19e99a34e3984a1"
