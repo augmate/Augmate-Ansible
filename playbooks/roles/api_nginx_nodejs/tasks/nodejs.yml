@@ -91,10 +91,17 @@
   apt:
    deb="/tmp/{{mongodb_shell_version}}".deb
 
-#sudo env PATH=$PATH:/usr/local/bin pm2 startup -u api_user
-
 # Ubuntu 14.04 does not come with systemd by default (coming Ubuntu 14.10)
 # Accommodate this.
+- name: change the shell of the api_user -- pm2 doesn't support system accounts. doing this in a task for easy removal for when it's fixed.
+  user:
+    name={{user}}
+    shell={{user_shell_pm2}}
+
+- name: start the API server with pm2, which also
+  shell: pm2 start server.js {{api_nginx_root}}/prod.config.json --name "API" -i max chdir={{api_nginx_root}}
+  sudo: True
+  sudo_user: "{{api_user}}"
 
 - name: put /etc/init.d/pm2 script in place
   template:
@@ -103,7 +110,6 @@
     owner=root
     group=root
     mode=0766
-
 
 
 #if service does not respond to the status, command, ps aux | grep pattern counts as running

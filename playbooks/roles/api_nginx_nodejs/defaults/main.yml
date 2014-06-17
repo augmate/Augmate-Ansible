@@ -4,6 +4,7 @@ api_dest_folder: "/srv/api"
 api_git_repo: "https://github.com/augmate/api.git"
 
 user: api_user
+user_shell_pm2: "/bin/bash"
 
 http_port: 80
 https_port: 443
