@@ -3,4 +3,5 @@
 dependencies:
   - { role: vault } #puts .vault_pass.txt in place for encrypted files
   - { role: nginx }
+  - { role: git }
   - { role: nodejs }

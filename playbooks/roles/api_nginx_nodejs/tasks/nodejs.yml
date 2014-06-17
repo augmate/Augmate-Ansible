@@ -9,6 +9,7 @@
     group={{nginx_group}}
     mode=0775
 
+
 # Force a shallow-depth clone of the repo as our api user.
 # hostkey should already be populated safely this role's main.yml
 # If you're okay with stranger-danger, add accept_hostkey=yes
@@ -89,3 +90,4 @@
 - name: "Install mongodb shell tools"
   apt:
    deb="/tmp/{{mongodb_shell_version}}".deb
+
