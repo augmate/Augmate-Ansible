@@ -91,3 +91,26 @@
   apt:
    deb="/tmp/{{mongodb_shell_version}}".deb
 
+#sudo env PATH=$PATH:/usr/local/bin pm2 startup -u api_user
+
+# Ubuntu 14.04 does not come with systemd by default (coming Ubuntu 14.10)
+# Accommodate this.
+
+- name: put /etc/init.d/pm2 script in place
+  template:
+    dest=/etc/init.d/pm2
+    src=pm2.sh.j2
+    owner=root
+    group=root
+    mode=0766
+
+
+
+#if service does not respond to the status, command, ps aux | grep pattern counts as running
+#pattern: /usr/local/bin/pm2
+
+#- name: start the node service
+#  service:
+#    name: nodejs_api
+#    enabled: yes
+#    state: started
