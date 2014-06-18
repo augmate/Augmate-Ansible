@@ -1,16 +1,9 @@
 #managed by ansible 
 #file api_nginx_nodejs/templates/api_nginx_nodejs.yml
-
-# IP which nodejs is running on
 upstream node_api {
     server 127.0.0.1:{{api_node_port}};
 }
 
-events {
-        worker_connections {{nginx_worker_connections}};
-}
-
-# nginx server instance
 server {
 
     listen 80;
@@ -20,8 +13,7 @@ server {
 
     location / {
         root {{ nginx_root }};
-        index index.html index.htm;
-        try_files $uri $uri/ @node;
+        try_files $uri @node;
     }
 
     # proxy_pass to the upstream node app. 
