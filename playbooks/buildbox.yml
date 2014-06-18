@@ -1,0 +1,11 @@
+---
+# file: playbooks/buildbox.yml
+- hosts: build-servers
+  sudo: True
+
+  tasks:
+
+    - debug: msg="Buildbox Playbook."
+
+  roles:
+    - { role: buildbox }
