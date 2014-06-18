@@ -1,0 +1,53 @@
+#managed by ansible
+#file api_nginx_nodejs/templates/api_nginx_nodejs.yml
+upstream node_api {
+    server 127.0.0.1:{{api_node_port}};
+}
+
+#http {
+#1m of cache =~ 4k sessions
+#ssl_session_cache   shared:SSL:10m;
+#ssl_session_timeout 10m;
+#...
+
+server {
+
+    #listen 80; #uncomment to serve 80 as well
+    listen 443 ssl;
+    server_name {{ api_nginx_server_name }};
+    charset utf-8;
+
+    #don't automate by picking the server name here (regex could cause issues)
+    ssl_certificate {{ api_nginx_ssl_cert }};
+    ssl_certificate_key {{ api_nginx_ssl_key }};
+
+    ssl_protocols       SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+
+
+
+    keepalive_timeout
+
+    location / {
+        root {{ nginx_root }};
+        try_files $uri @node;
+    }
+
+    # proxy_pass to the upstream node app.
+    # use X-Forwarded-For when proxying so we can see where the req came from
+    location @node {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_pass http://node_api;
+    }
+
+    # serve static files directly
+    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico)$ {
+        access_log        off;
+        expires           30d;
+    }
+
+    access_log {{nginx_log_file_access}};
+    error_log {{nginx_log_file_error}};
+
+}

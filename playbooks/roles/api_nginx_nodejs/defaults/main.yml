@@ -34,3 +34,7 @@ api_nginx_server_name: api.augmate.*
 api_nginx_root: /srv/api
 api_nginx_log_file_access: /var/log/nginx/api_access.log
 api_nginx_log_file_error: /var/log/nginx/api_error.log
+
+
+api_nginx_ssl_key: STAR_api_augmate_net.key
+api_nginx_ssl_cert: STAR_api_augmate_net.cert

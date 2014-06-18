@@ -17,10 +17,10 @@
 
 - include_vars: api_wildcard_key_net.yml
 
-- name: Put our wildcard (*.api.augmate.net) in place for the API server
+- name: Put our wildcard key (*.api.augmate.net) in place for the API server
   copy:
     content="{{api_wildcard_key}}"
-    dest="{{api_nginx_root}}"/essential/signedcerts/STAR_api_augmate_net.key
+    dest="{{api_nginx_root}}/essential/signedcerts/{{api_nginx_ssl_key}}"
     owner={{user}}
     group={{user}}
     mode=0440
@@ -38,10 +38,18 @@
 
 #Don't validate on the api nginx conf -- if the upstream server fails, we get a misleading error
 #about an upstream directive.
-- name: write nginx_api_nodejs.conf to /etc/nginx/conf.d/sites-available
+- name: write api_nginx_nodejs.conf to /etc/nginx/conf.d/sites-available
   template:
     src=api_nginx_nodejs.j2
     dest=/etc/nginx/sites-available/api-server
+    owner="{{ nginx_user }}"
+    group="{{ nginx_group }}"
+    mode=0444
+
+- name: write api_nginx_nodejs_ssl.conf to /etc/nginx/conf.d/sites-available
+  template:
+    src=api_nginx_nodejs_ssl.j2
+    dest=/etc/nginx/sites-available/api-server-ssl
     owner="{{ nginx_user }}"
     group="{{ nginx_group }}"
     mode=0444
