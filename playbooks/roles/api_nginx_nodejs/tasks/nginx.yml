@@ -54,8 +54,14 @@
     group="{{ nginx_group }}"
     mode=0444
 
-- name: symlink api-server to nginx's sites-enabled dir
+- name: make sure that the api-server (NON SSL) is not being enabled
   file: 
     path=/etc/nginx/sites-enabled/api-server
     src=/etc/nginx/sites-available/api-server
+    state=absent
+
+- name: symlink api-server-ssl to nginx's sites-enabled dir
+  file:
+    path=/etc/nginx/sites-enabled/api-server-ssl
+    src=/etc/nginx/sites-available/api-server-ssl
     state=link
