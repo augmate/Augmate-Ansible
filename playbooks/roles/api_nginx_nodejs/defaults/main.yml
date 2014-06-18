@@ -19,7 +19,7 @@ nginx_pid: /var/run/nginx.pid
 nginx_root: /srv/api/
 nginx_worker_processes: "{{ansible_processor_count}}"
 nginx_worker_connections: 768
-nginx_keepalive_timeout: 65
+nginx_keepalive_timeout: 125
 nginx_log_file_access: /var/log/nginx/access.log
 nginx_log_file_error: /var/log/nginx/error.log
 
@@ -36,5 +36,5 @@ api_nginx_log_file_access: /var/log/nginx/api_access.log
 api_nginx_log_file_error: /var/log/nginx/api_error.log
 
 
-api_nginx_ssl_key: STAR_api_augmate_net.key
-api_nginx_ssl_cert: STAR_api_augmate_net.cert
+api_nginx_ssl_key: essential/signedcerts/STAR_api_augmate_net.key
+api_nginx_ssl_cert: essential/signedcerts/STAR_api_augmate_net.cert
