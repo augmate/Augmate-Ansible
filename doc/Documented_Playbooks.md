@@ -1,7 +1,5 @@
 #Documented Playbooks
 ---------------------
-##(work in progress)
-
 
 
 ####Note that most playbooks make extensive use of roles, which are documented on the [Roles Page](./Roles.md).
@@ -13,32 +11,26 @@ Related (and important):
 
 -----
 
-###start
+###[start](https://github.com/augmate/ansible/blob/master/playbooks/start.yml)
 
-start as the "base layer" and is documented on the ["Ordering"](./Ordering.md) page.
-
---
-
-###api-server
-
-Brings an API server online.
-
-Install packages:
-
-+ nodejs 
-+ nginx
-
-Roles: 
-
-+ nginx_api_nodejs : configure nginx for serving the nodejs based API.
-    - depends on role `nginx`
-
-+ nodejs 
-
-Ports opened
+Do base configuration of a server - add users, SSH keys, lock down the firewall, allow admins to escalate privileges via sudo.  Further documented on the ["Ordering"](./Ordering.md) page.
 
 
-###buildbox
+Main role: None -- done via tasks.
+
+Ports opened: 22/TCP
+
+
+###[api-server](https://github.com/augmate/ansible/blob/master/playbooks/api-server.yml)
+
+Install nodejs, git clone the [API repo](https://github.com/augmate/api), configure nginx as a reverse proxy.
+
+Main role: [api_nginx_nodejs](https://github.com/augmate/ansible/tree/master/playbooks/roles/api_nginx_nodejs)
+
+Ports opened: 443/TCP
+
+
+###[buildbox](https://github.com/augmate/ansible/blob/master/playbooks/buildbox.yml)
 
 Installs the Teamcity CI platform. 
 
@@ -49,17 +41,11 @@ Tags:
 + Master
 + Agent 
 
-Roles: 
-
+Main role: 
 
 Ports opened
 
 
-
-###website 
+###[website](https://github.com/augmate/ansible/blob/master/playbooks/website.yml) 
 
 Configures a webserver with the assets needed to serve [Augmate.com](http://augmate.com).
-
-
-nodejs
-static assets (html, js, css)
