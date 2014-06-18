@@ -15,7 +15,7 @@
     group={{nginx_group}}
     mode=0775
 
-- include_vars: api_wildcard_key.yml
+- include_vars: api_wildcard_key_net.yml
 
 - name: Put our wildcard (*.api.augmate.net) in place for the API server
   copy:
