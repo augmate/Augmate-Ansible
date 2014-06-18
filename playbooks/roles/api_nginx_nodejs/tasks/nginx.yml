@@ -15,6 +15,16 @@
     group={{nginx_group}}
     mode=0775
 
+- include_vars: api_wildcard_key.yml
+
+- name: Put our wildcard (*.api.augmate.net) in place for the API server
+  copy:
+    content="{{api_wildcard_key}}"
+    dest="{{api_nginx_root}}"/essential/signedcerts/STAR_api_augmate_net.key
+    owner={{user}}
+    group={{user}}
+    mode=0440
+
   # Don't start Nginx at any point in this task.  
   # Leave that up to the Playbook  
 - name: replace nginx.conf with our templated version
