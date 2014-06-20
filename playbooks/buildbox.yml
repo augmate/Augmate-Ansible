@@ -4,8 +4,8 @@
   sudo: True
 
   tasks:
-
-    - debug: msg="Buildbox Playbook."
+    - debug: msg="Buildbox."
 
   roles:
-    - { role: buildbox }
+    - { role: java }
+    - { role: teamcity}
