@@ -1,0 +1,39 @@
+---
+
+# This will fail if specifying Oracle's official URL unless changed to be
+# a shell command with curl specifying cookies.
+- name: See if we already have the specified Oracle java
+  stat: path={{jvm_install_directory}}/{{oracle_decompressed_folder_name}} get_md5=no
+  register: oracle_stat
+
+- name: this is downloading every time.  quit doing this.
+  debug: msg={{oracle_stat}}
+
+- name: Download Oracle x64 JRE
+  get_url:
+    dest={{oracle_java_download_location}}
+    url={{oracle_java_download_url}}
+    sha256sum={{oracle_java_download_sha256}}
+  when: oracle_stat is defined and oracle_stat.stat.exists == false
+
+- name: Decompress the Oracle Java download
+  shell: tar -xf {{oracle_java_download_location}} chdir=/tmp
+  when: oracle_stat.stat.exists == false
+
+- name: Make the Java directory
+  file:
+    state=directory
+    path={{jvm_install_directory}}
+    owner=root
+    group=root
+    mode=0755
+
+- name: Move the uncompressed Oracle Java download to /usr/lib/jvm
+  shell: mv /tmp/{{oracle_decompressed_folder_name}} {{jvm_install_directory}}
+  when: oracle_stat.stat.exists == false
+
+#sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0/bin/java" 1
+#sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.8.0/bin/javaws" 1
+#sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0/bin/javac" 1
+
+#Ensure you have JRE or JDK installed and the JAVA_HOME environment variable is pointing to the Java installation directory.
