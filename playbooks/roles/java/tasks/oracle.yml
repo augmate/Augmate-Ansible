@@ -32,8 +32,11 @@
   shell: mv /tmp/{{oracle_decompressed_folder_name}} {{jvm_install_directory}}
   when: oracle_stat.stat.exists == false
 
-#sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0/bin/java" 1
-#sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.8.0/bin/javaws" 1
-#sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0/bin/javac" 1
+- name: update-alternatives for java binary
+  shell: sudo update-alternatives --install "/usr/bin/java" "java" "{{jvm_install_directory}}{{oracle_decompressed_folder_name}}/bin/java" 1
+
+- name: update-alternatives for javaws
+  shell: sudo update-alternatives --install "/usr/bin/javaws" "javaws" "{{jvm_install_directory}}{{oracle_decompressed_folder_name}}/bin/javaws" 1
+
 
 #Ensure you have JRE or JDK installed and the JAVA_HOME environment variable is pointing to the Java installation directory.
