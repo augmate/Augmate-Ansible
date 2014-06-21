@@ -1,0 +1,1 @@
+export JAVA_HOME={{jvm_install_directory}}{{oracle_decompressed_folder_name}}
