@@ -38,5 +38,13 @@
 - name: update-alternatives for javaws
   shell: sudo update-alternatives --install "/usr/bin/javaws" "javaws" "{{jvm_install_directory}}{{oracle_decompressed_folder_name}}/bin/javaws" 1
 
+- name: set $JAVA_HOME:$PATH in /etc/profile.d/java
+  template:
+    dest=/etc/profile.d/profile_d_oracle.sh
+    src=profile_d_oracle.sh.yml
+    owner=root
+    group=root
+    mode=0544
+
 
 #Ensure you have JRE or JDK installed and the JAVA_HOME environment variable is pointing to the Java installation directory.
