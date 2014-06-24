@@ -1,0 +1,23 @@
+#!/bin/sh
+
+PATH={{teamcity_bin_directory}}:{{teamcity_agent_bin_directory}}:/sbin:/usr/sbin:/bin:/usr/bin
+
+
+case "$1" in
+start|stop)
+
+  #old_cwd=`pwd`
+  #cd `dirname $0`
+
+  sh teamcity-server.sh $1
+
+  #cd ../buildAgent/bin
+  sh agent.sh $1 $2
+
+  #cd $old_cwd
+;;
+*)
+  echo "Usage: as $0 (start|stop[ force])"
+  exit 1
+;;
+esac
