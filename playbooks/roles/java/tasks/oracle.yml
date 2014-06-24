@@ -30,13 +30,16 @@
 
 - name: Move the uncompressed Oracle Java download to /usr/lib/jvm
   shell: mv /tmp/{{oracle_decompressed_folder_name}} {{jvm_install_directory}}
+  register: oracle_java
   when: oracle_stat.stat.exists == false
 
 - name: update-alternatives for java binary
   shell: sudo update-alternatives --install "/usr/bin/java" "java" "{{jvm_install_directory}}{{oracle_decompressed_folder_name}}/bin/java" 1
+  when: oracle_java.changed == true
 
 - name: update-alternatives for javaws
   shell: sudo update-alternatives --install "/usr/bin/javaws" "javaws" "{{jvm_install_directory}}{{oracle_decompressed_folder_name}}/bin/javaws" 1
+  when: oracle_java.changed == true
 
 - name: set $JAVA_HOME:$PATH in /etc/profile.d/java
   template:
