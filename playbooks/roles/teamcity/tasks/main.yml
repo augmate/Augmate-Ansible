@@ -1,6 +1,27 @@
 ---
 # file: teamcity/tasks/main.yml
 
+- name: Check if we're on Amazon, as buildboxes store large files
+  command: curl http://169.254.169.254/latest/meta-data/block-device-mapping/ami/
+  register: amazon_check
+  ignore_errors: yes
+
+- name: If we have an amazon block device available, load the Amazon vars file.  This overrides defaults.
+  include: amazon.yml
+  when: "'dev' in amazon_check.stdout"
+
+# Set environmental variables for use by TeamCity
+- name: Set environmental variables
+  template:
+    src=profile_d_teamcity.sh.j2
+    dest=/etc/profile.d/profile_d_teamcity.sh
+    owner=root
+    group=root
+    mode=0544
+
+
+# Get TeamCity
+
 - name: Make sure we don't download Teamcity if it's already on disk
   stat: path={{teamcity_download_file}} get_md5=no
   register: teamcity_tar
@@ -17,7 +38,7 @@
   stat: path={{teamcity_install_directory}}/TeamCity/bin get_md5=no
   register: teamcity_bin
 
-- name: Make the TeamCity serving directory
+- name: Make the TeamCity application directory
   file:
     state=directory
     path={{teamcity_install_directory}}
@@ -29,6 +50,8 @@
   shell: tar -xf {{teamcity_download_file}} -C {{teamcity_install_directory}} chdir={{teamcity_download_directory}}
   register: team_city_decompress
   when: (get_team_city.changed == true) or (teamcity_bin.stat.exists == false)
+
+# / Get TeamCity
 
 - name: Put an init script in place so we can run TeamCity like a standard service
   template:
@@ -51,3 +74,7 @@
   async: 35
   poll: 0
 
+
+
+- name: Unblock the teamcity serving port from UFW
+  ufw: rule=allow port={{teamcity_port}} proto=tcp
