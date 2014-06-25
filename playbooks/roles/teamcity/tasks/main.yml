@@ -1,7 +1,6 @@
 ---
 # file: teamcity/tasks/main.yml
 
-#http://confluence.jetbrains.com/display/TCD8/Installing+and+Configuring+the+TeamCity+Server
 - name: Make sure we don't download Teamcity if it's already on disk
   stat: path={{teamcity_download_file}} get_md5=no
   register: teamcity_tar
@@ -45,41 +44,10 @@
     enabled=yes
     state=started
 
-
-#edit estartup script/envvar settings
-
-
-#You can resolve this problem by adding -Djava.awt.headless=true the server JVM option.
-
-
-#To change the server port, in the <TeamCity Home>/conf/server.xml file, change the port number in the HTTP/1.1 connector (here the port number is 8111):
-
-#<Connector port="8111" protocol="HTTP/1.1"
-#             connectionTimeout="20000"
-#             redirectPort="8443"
-#             enableLookup="false"
-#             useBodyEncodingForURI="true"
-#      />
-
-#https for teamcity: http://confluence.jetbrains.com/display/TCD8/Using+HTTPS+to+access+TeamCity+server
-
-#http://confluence.jetbrains.com/display/TCD8/Installing+and+Configuring+the+TeamCity+Server#InstallingandConfiguringtheTeamCityServer-x64jvm
-
-#The Oracle Java 1.7 is recommended.
-
-# The steps to update to 64 bit Java are:
-
-#update Java to be used by the server
-#set JVM memory options. Recommended options for 64 bit JVM are -Xmx4g -XX:MaxPermSize=270m
-
-#parameterize from memory on instance
-#{{ ansible_total_mem }} ?
-
-
-#http://confluence.jetbrains.com/display/TCD8/Installing+and+Configuring+the+TeamCity+Server
-
-#see setting up memory settings
-
-#increase available ram to JVM
-
+# The fun thing about TeamCity is that it really only starts when it gets its first request.
+# Fire and forget a curl req to get TeamCity working
+- name: Fire off a request to the listening TeamCity port to fire up the service
+  command: curl --max-time 30 --fail --silent localhost:{{teamcity_port}}
+  async: 35
+  poll: 0
 
