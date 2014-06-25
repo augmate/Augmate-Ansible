@@ -34,10 +34,17 @@
 - name: Put an init script in place so we can run TeamCity like a standard service
   template:
     src=teamcity.sh.j2
-    dest=/etc/init.d/teamcity.sh
+    dest=/etc/init.d/teamcity
     owner=root
     group=root
-    mode=0766
+    mode=0755
+
+- name: Ensure TeamCity is told to start at boot.
+  service:
+    name=teamcity
+    enabled=yes
+    state=started
+
 
 #edit estartup script/envvar settings
 
