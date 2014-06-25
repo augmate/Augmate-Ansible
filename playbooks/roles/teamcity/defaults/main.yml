@@ -11,4 +11,4 @@ teamcity_install_directory: /srv/teamcity
 
 teamcity_directory: "{{teamcity_install_directory}}/TeamCity"
 teamcity_bin_directory: "{{teamcity_directory}}/bin"
-teamcity_agent_bin_directory: "{{teamcity_bin_directory}}/buildAgent/bin"
+teamcity_agent_bin_directory: "{{teamcity_directory}}/buildAgent/bin"
