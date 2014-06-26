@@ -1,14 +1,17 @@
 ---
 # file: teamcity/tasks/main.yml
 
-- name: Check if we're on Amazon, as buildboxes store large files
-  command: curl http://169.254.169.254/latest/meta-data/block-device-mapping/ami/
+- name: Check if we're on Amazon, as buildboxes store large files. Wait up to 10 seconds for a response.
+  shell: curl --max-time 10 http://169.254.169.254/latest/meta-data/block-device-mapping/ami/
   register: amazon_check
   ignore_errors: yes
 
 - name: If we have an amazon block device available, load the Amazon vars file.  This overrides defaults.
-  include: amazon.yml
+  include_vars: amazon.yml
   when: "'dev' in amazon_check.stdout"
+
+- name: Output the directory that we'll be using as a data directory
+  debug: msg="{{TEAMCITY_DATA_PATH}}"
 
 # Set environmental variables for use by TeamCity
 - name: Set environmental variables
@@ -18,7 +21,6 @@
     owner=root
     group=root
     mode=0544
-
 
 # Get TeamCity
 
