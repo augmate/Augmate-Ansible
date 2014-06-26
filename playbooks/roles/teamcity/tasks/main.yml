@@ -23,7 +23,6 @@
     mode=0544
 
 # Get TeamCity
-
 - name: Make sure we don't download Teamcity if it's already on disk
   stat: path={{teamcity_download_file}} get_md5=no
   register: teamcity_tar
@@ -72,9 +71,16 @@
   service:
     name: teamcity
     state: started
-  register: teamcity_status
-  failed_when: "'already running' not in teamcity_status.msg"
+  register: teamcity_start
+  ignore_errors: yes
 
+- name: print debugging into
+  debug: msg="{{teamcity_start}}"
+
+- name: If teamcity_start failed, make sure it's only because Jetbrains is returning errors for good things
+  debug: msg="{{teamcity_start}}"
+  when: teamcity_start | failed
+  failed_when: "'already running' not in teamcity_start.msg"
 
 # The fun thing about TeamCity is that it really only starts when it gets its first request.
 # Fire and forget a curl req to get TeamCity working
@@ -82,8 +88,6 @@
   command: curl --max-time 30 --fail --silent localhost:{{teamcity_port}}
   async: 35
   poll: 0
-
-
 
 - name: Unblock the teamcity serving port from UFW
   ufw: rule=allow port={{teamcity_port}} proto=tcp
