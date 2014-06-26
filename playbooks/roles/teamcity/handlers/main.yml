@@ -1,0 +1,6 @@
+---
+- name: start teamcity
+  service: name=teamcity state=started
+
+- name: stop teamcity
+  service: name=teamcity state=stopped
