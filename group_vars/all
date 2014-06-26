@@ -25,13 +25,6 @@ human_users: [
     ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC8cyaqrPcF0Nwi4ozpDp+6DcIata0fEjy/NhSC80iS9dGnafOjgfGTr3sgCTTsrj28ym6wo8nfWBLv8RpdN+4Sx5BJ8WuH39yJ3G86rt2JKdbijeSkDXijis1kt7lkg8VmGYsLOJA8Mkrw38Qjd3zopxJlxfACC1NrpJYz3DJCwUlzNiB5VkE4P8qFwePse3VFFdma9977DwvNMx/QmWreRfFXCIlcIG2zsPmdQ0d0KSbB5d8gyF/QfueVQAlaq6kALlmDyaXLKZHqDJgvw1hxK5ZHcBDfhMf0eGGkgpH5ceBNkK40REspnq1Ul26UhCaobCfr2c3zURsiObU0TvCh jurgiles@Johnys-MacBook-Air.local"
 },
 {
-    username: "pasha",
-    comment: "Pasha Galbreath",
-    uid: "10005",
-    groups: "admin,developers",
-    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCqICqwKA8KdRZ8RtFXSssjzWmZ1YBegJB+I0VpRcVfNFMg35xLnEXz20PeQBgFWj5EgiQmof9PskIASaiqfjc1e/iqU9mPioZcPYeBGI4gvCpTW0nFJBM+1UpQraBqroQM8phElDLVLDdMruU3QNvl/GOJ8F1oUPVKR3kw9LoPppYPmCY51yQxHYOjQHpb12rmz8Ba5lP3Y4uAp5Qh0h5M0QttaKWCVvNowx3Y96eChPWdoCBTjgy8MGYJPwuJKtRUZxK9yK8L3laJypaEDD8JSsBc80O4revrpH+kYj+oJiBaaNpCvbrN6XhMUPFT3BGaCTOrZgDjpxanQjA7fwoF"
-},
-{
     username: "tfisher",
     comment: "Tristan Fisher",
     uid: "10006",
