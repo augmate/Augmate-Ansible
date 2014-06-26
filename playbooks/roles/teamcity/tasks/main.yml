@@ -67,7 +67,14 @@
   service:
     name=teamcity
     enabled=yes
-    state=started
+
+- name: Start TeamCity if it's off.
+  service:
+    name: teamcity
+    state: started
+  register: teamcity_status
+  failed_when: "'already running' not in teamcity_status.msg"
+
 
 # The fun thing about TeamCity is that it really only starts when it gets its first request.
 # Fire and forget a curl req to get TeamCity working
