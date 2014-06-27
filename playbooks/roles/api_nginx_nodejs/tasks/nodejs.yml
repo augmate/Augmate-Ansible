@@ -9,16 +9,15 @@
     group={{nginx_group}}
     mode=0775
 
-
 # Force a shallow-depth clone of the repo as our api user.
 # hostkey should already be populated safely this role's main.yml
 # If you're okay with stranger-danger, add accept_hostkey=yes
 - name: git clone the repo into our serving directory
   git:
-    repo=git@github.com:augmate/api.git
-    depth=1
+    repo={{api_git_repo}}
     dest={{api_nginx_root}}
-    version=master
+    version={{api_git_version}}
+    depth=1
     force=yes
   sudo: yes
   sudo_user: "{{api_user}}"

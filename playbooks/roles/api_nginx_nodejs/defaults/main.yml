@@ -1,14 +1,15 @@
 ---
-# file: api_nginx_nodejs/deaults/main.yml
+# file: api_nginx_nodejs/defaults/main.yml
 api_dest_folder: "/srv/api"
-api_git_repo: "https://github.com/augmate/api.git"
+#api_git_repo: "https://github.com/augmate/api.git"
+api_git_repo: git@github.com:augmate/api.git
+api_git_version: release
 
 user: api_user
 user_shell_pm2: "/bin/bash"
 
 http_port: 80
 https_port: 443
-
 
 #base nginx setup
 
