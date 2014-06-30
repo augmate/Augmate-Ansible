@@ -4,7 +4,7 @@
 
 human_users: [
 {
-    username: "alex",
+    username: "aleckz",
     comment: "Alex Barkan",
     uid: "10002",
     groups: "admin,developers",
