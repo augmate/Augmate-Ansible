@@ -14,13 +14,24 @@
   debug: msg="{{TEAMCITY_DATA_PATH}}"
 
 # Set environmental variables for use by TeamCity
-- name: Set environmental variables
+- name: Set environmental variables in profile.d
   template:
     src=profile_d_teamcity.sh.j2
     dest=/etc/profile.d/profile_d_teamcity.sh
     owner=root
     group=root
     mode=0544
+
+- name: Run the environmental variables script in profile.d so we have them available for this session
+  shell: "/etc/profile.d/profile_d_teamcity.sh"
+
+- name: Make the TeamCity TEAMCITY_DATA_PATH
+  file:
+    state=directory
+    path={{TEAMCITY_DATA_PATH}}
+    owner=root
+    group=root
+    mode=0755
 
 # Get TeamCity
 - name: Make sure we don't download Teamcity if it's already on disk
@@ -90,4 +101,5 @@
   poll: 0
 
 - name: Unblock the teamcity serving port from UFW
+  ufw: state=enabled
   ufw: rule=allow port={{teamcity_port}} proto=tcp
