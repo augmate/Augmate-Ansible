@@ -6,9 +6,6 @@
   stat: path={{jvm_install_directory}}/{{oracle_decompressed_folder_name}} get_md5=no
   register: oracle_stat
 
-- name: this is downloading every time.  quit doing this.
-  debug: msg={{oracle_stat}}
-
 - name: Download Oracle x64 JRE
   get_url:
     dest={{oracle_java_download_location}}
