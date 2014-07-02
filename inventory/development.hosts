@@ -1,9 +1,15 @@
-# file: development
-
 [api-servers]
+127.0.0.1:3333
+#127.0.0.1:5555
 
 [webservers]
+#127.0.0.1:3333
+#127.0.0.1:5555
 
 [build-servers]
+#127.0.0.1:5555
+127.0.0.1:6666
 
 [api-servers:children]
+#api-servers-staging
+
