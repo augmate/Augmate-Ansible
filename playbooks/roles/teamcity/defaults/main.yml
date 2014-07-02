@@ -15,8 +15,15 @@ teamcity_agent_bin_directory: "{{teamcity_directory}}/buildAgent/bin"
 
 teamcity_port: 8111
 
-
 TEAMCITY_DATA_PATH: '/var/teamcity'
-#don't set the maxperm size beyond the available box ram.
+
+#todo: jinja multiplication here could help.
+percent_total: "{{ansible_memtotal_mb * .8 }}"
+
+#do not set the maxperm size beyond the available box ram.
+teamcity_max_mem: "{% if ansible_memtotal_mb >= 300 %}270{% else %}125{% endif %}"
+
+TEAMCITY_SERVER_MEM_OPTS: "-XX:MaxPermSize={{teamcity_max_mem}}m"
+# else set to 80% of ansible_memtotal_mb
 #TEAMCITY_SERVER_MEM_OPTS: '-XX:MaxPermSize=270m'
 #TEAMCITY_SERVER_OPTS: ""
