@@ -22,8 +22,9 @@
     group=root
     mode=0544
 
-- name: Run the environmental variables script in profile.d so we have them available for this session
-  shell: "/etc/profile.d/profile_d_teamcity.sh"
+# If not using the provided startup script, make sure to use this:
+#- name: Run the environmental variables script in profile.d so we have them available for this session
+#  shell: "/etc/profile.d/profile_d_teamcity.sh"
 
 - name: Make the TeamCity TEAMCITY_DATA_PATH
   file:
