@@ -42,8 +42,9 @@ pip-log.txt
 .idea
 .iml
 
-
 .swp
 .DS_STORE
 Thumbs.db
 
+# ansible specific placeholder files
+inventory/development.hosts
