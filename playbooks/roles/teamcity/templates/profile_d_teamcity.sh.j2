@@ -1,10 +1,10 @@
 #Managed by Ansible. The data_path is dynamically set to try to accommodate Amazon EC2 instances
-export TEAMCITY_DATA_PATH={{TEAMCITY_DATA_PATH}}
+export TEAMCITY_DATA_PATH="{{TEAMCITY_DATA_PATH}}"
 
 {% if TEAMCITY_SERVER_MEM_OPTS is defined %}
-export TEAMCITY_SERVER_MEM_OPTS={{TEAMCITY_SERVER_MEM_OPTS}}
+export TEAMCITY_SERVER_MEM_OPTS="{{TEAMCITY_SERVER_MEM_OPTS}}"
 {% endif %}
 
 {% if TEAMCITY_SERVER_OPTS is defined %}
-export TEAMCITY_SERVER_OPTS={{TEAMCITY_SERVER_OPTS}}
+export TEAMCITY_SERVER_OPTS="{{TEAMCITY_SERVER_OPTS}}"
 {% endif %}
