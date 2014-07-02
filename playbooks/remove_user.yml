@@ -1,0 +1,22 @@
+---
+#file playbooks/start.yml
+- hosts: all
+  sudo: True
+
+  vars:
+    human_users: [
+    { username: "ubuntu" }
+  ]
+
+  tasks:
+
+    - name: remove users
+      user:
+        name="{{item.username}}"
+        state=absent
+      with_items: human_users
+
+    #handlers:
+    - name: restart ssh
+      service: name=ssh state=restarted
+
