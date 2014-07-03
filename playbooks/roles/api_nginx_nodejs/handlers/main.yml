@@ -1,5 +1,8 @@
 ---
 #file api_nginx_nodejs/handlers/main.yml
-
 #nginx handlers exist in the base role
-
+- name: start the node service
+  service:
+    name: pm2
+    enabled: yes
+    state: started
