@@ -12,6 +12,9 @@ oracle_license_key: accepted-oracle-license-v1-1
 #this URL means using cURL and setting cookies to download
 #oracle_java_download_url: http://download.oracle.com/otn-pub/java/jdk/7u60-b19/jre-7u60-linux-x64.tar.gz
 
+oracle_java_download_file_x86: jre-7u60-linux-i586.gz
+oracle_java_download_sha256_x86:   76e9c4f7cdd62025fe7004221cdeceabcc3adb2f093fc3ee127d30c95df7277e
+
 oracle_java_download_file: jre-7u60-linux-x64.gz
 oracle_java_download_url: https://s3.amazonaws.com/augmate_ansible/{{oracle_java_download_file}}
 oracle_java_download_sha256: 73d6d759f524320671904447f9436ff0e60aa9379cacc0838001d6259e86216d
