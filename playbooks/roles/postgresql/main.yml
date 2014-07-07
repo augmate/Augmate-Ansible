@@ -9,6 +9,17 @@
 
   hosts: "{{selected_hosts}}"
 
+  vars:
+    postgresql_listen_addresses:
+      - '*'
+    postgresql_authentication:
+      - type: host
+        user: all
+        database: all
+        address: 'samenet' #allow connections from the same subnet that the server is on
+        #address: '0.0.0.0/0'
+        method: trust
+
   pre_tasks:
     # Better safe than sorry
     - name: APT update

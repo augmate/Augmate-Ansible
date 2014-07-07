@@ -1,6 +1,8 @@
 PostgreSQL role for Ansible
 ===========================
 
+##forked/modified
+
 A role for deploying and configuring [PostgreSQL](http://www.postgresql.org/) and extensions on unix hosts using [Ansible](http://www.ansibleworks.com/).
 
 It can additionally be used as a playbook for quickly provisioning hosts.
