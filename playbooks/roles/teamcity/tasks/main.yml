@@ -59,6 +59,33 @@
     group=root
     mode=0755
 
+- name: Make the JDBC driver directory
+  file:
+    state=directory
+    path="{{java_jbdc_postgres_driver_install_directory}}"
+    owner=root
+    group=root
+    mode=0755
+
+- name: Check if the postgres driver already exists in the download/cache path
+  stat: path="{{java_jbdc_postgres_driver_download_file}}"
+  register: jbdc_postgresql_cache
+
+- name: Check if the postgres driver already exists in the install path
+  stat: path="{{java_jbdc_postgres_driver_install_directory}}/{{java_jbdc_postgres_driver}}"
+  register: jbdc_postgresql_install
+
+- name: download the postgresql driver if it hasn't been downloaded or put in the proper path
+  get_url:
+    url="{{java_jbdc_postgres_driver_url}}"
+    dest="{{java_jbdc_postgres_driver_download_file}}"
+  when: (jbdc_postgresql_cache.stat.exists == false) and (jbdc_postgresql_install.stat.exists == false)
+
+- name: copy postgresql driver into teamcity directory if not already there
+  shell: cp {{java_jbdc_postgres_driver_download_file}} {{java_jbdc_postgres_driver_dest}}
+  register: copied_postgres_driver
+  when: (jbdc_postgresql_cache.changed == true) or (jbdc_postgresql_install.stat.exists == false)
+
 - name: Decompress the TeamCity tar.gz into the serving directory
   shell: tar -xf {{teamcity_download_file}} -C {{teamcity_install_directory}} chdir={{teamcity_download_directory}}
   register: team_city_decompress

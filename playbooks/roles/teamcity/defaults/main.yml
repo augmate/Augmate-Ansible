@@ -27,3 +27,12 @@ TEAMCITY_SERVER_MEM_OPTS: "-XX:MaxPermSize={{teamcity_max_mem}}m"
 # else set to 80% of ansible_memtotal_mb
 #TEAMCITY_SERVER_MEM_OPTS: '-XX:MaxPermSize=270m'
 #TEAMCITY_SERVER_OPTS: ""
+
+java_jbdc_postgres_driver: postgresql-9.3-1101.jdbc41.jar
+java_jbdc_postgres_driver_url: "http://jdbc.postgresql.org/download/{{java_jbdc_postgres_driver}}"
+
+java_jbdc_postgres_driver_download_directory: /var/cache
+java_jbdc_postgres_driver_download_file: "/var/cache/{{java_jbdc_postgres_driver}}"
+
+java_jbdc_postgres_driver_install_directory: "{{TEAMCITY_DATA_PATH}}/lib/jdbc/"
+java_jbdc_postgres_driver_dest: "{{java_jbdc_postgres_driver_install_directory}}/{{java_jbdc_postgres_driver}}"
