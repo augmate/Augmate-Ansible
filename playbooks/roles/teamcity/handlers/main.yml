@@ -1,6 +1,11 @@
 ---
 - name: start teamcity
-  service: name=teamcity state=started
+  service:
+    name: teamcity
+    state: started
+  register: teamcity_start
+  failed_when: "'already running' not in teamcity_start.msg"
+
 
 - name: stop teamcity
   service: name=teamcity state=stopped

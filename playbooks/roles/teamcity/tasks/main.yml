@@ -106,19 +106,16 @@
     name=teamcity
     enabled=yes
 
-- name: Start TeamCity if it's off.
+#- name: Now that our preparation work is done, start TeamCity
+#  debug: msg="Notifying TeamCity to start."
+#  notify:
+#   - start teamcity
+
+- name: start teamcity
   service:
     name: teamcity
     state: started
   register: teamcity_start
-  ignore_errors: yes
-
-- name: print debugging into
-  debug: msg="{{teamcity_start}}"
-
-- name: If teamcity_start failed, make sure it's only because Jetbrains is returning errors for good things
-  debug: msg="{{teamcity_start}}"
-  when: teamcity_start | failed
   failed_when: "'already running' not in teamcity_start.msg"
 
 # The fun thing about TeamCity is that it really only starts when it gets its first request.
