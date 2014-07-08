@@ -91,7 +91,17 @@
   register: team_city_decompress
   when: (get_team_city.changed == true) or (teamcity_bin.stat.exists == false)
 
-# / Get TeamCity
+#
+# Templates
+#
+
+- name: put the build agent property file in place, use hostname as agent name.
+  template:
+    src=buildAgent/conf/buildAgent.properties
+    dest="{{teamcity_buildagent_conf_directory}}/buildAgent.properties"
+    owner=root
+    group=root
+    mode=0644
 
 - name: Put an init script in place so we can run TeamCity like a standard service
   template:
