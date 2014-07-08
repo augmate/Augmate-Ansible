@@ -1,11 +1,58 @@
 ---
 # file: playbooks/buildbox.yml
-- hosts: build-servers
+- name: Teamcity Master Servers
+  hosts: buildserver-master
   sudo: True
-
+  #include_vars: postgres password?
+  roles:
+    #host, port, username, password
+    - { role: postgresql }
+    - { role: java }
+    - { role: teamcity }
+  tags:
+  - master
   tasks:
-    - debug: msg="Buildbox."
+    - debug: msg="Buildbox master tasks."
 
+    - name: add a teamcity database if it doesn't already exist
+      postgresql_db:
+        name=teamcity
+        login_user='postgres'
+        encoding='UTF-8'
+        state=present
+      sudo: yes
+      sudo_user: postgres
+
+    #http://docs.ansible.com/postgresql_user_module.html
+    - name: add a postgres user 'teamcity' with 'all' privileges on teamcity's database
+      postgresql_user:
+        db=teamcity
+        name=teamcity
+        priv=ALL
+        password=secret
+        state=present
+      sudo: yes
+      sudo_user: postgres
+
+    - name: Now that our preparation work is done, start TeamCity
+      debug: msg="Notifying TeamCity to start."
+      notify:
+       - stop teamcity
+       - start teamcity
+
+  handlers:
+    - include: roles/teamcity/handlers/main.yml
+
+
+- name: Teamcity Build Agents
+  hosts: buildserver-agent
+  sudo: True
+  #include_vars: postgres password?
   roles:
     - { role: java }
-    - { role: teamcity}
+    - { role: teamcity }
+    #needs
+  tags:
+  - agent
+  tasks:
+    - debug: msg="Buildbox."
