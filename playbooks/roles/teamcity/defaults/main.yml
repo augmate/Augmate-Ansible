@@ -13,13 +13,13 @@ teamcity_directory: "{{teamcity_install_directory}}/TeamCity"
 teamcity_bin_directory: "{{teamcity_directory}}/bin"
 teamcity_agent_bin_directory: "{{teamcity_directory}}/buildAgent/bin"
 
+TEAMCITY_DATA_PATH: '/var/teamcity'
 
 teamcity_buildagent_conf_directory: "{{teamcity_directory}}/buildAgent/conf"
-
+teamcity_conf_directory: "{{TEAMCITY_DATA_PATH}}/config"
 
 teamcity_port: 8111
 
-TEAMCITY_DATA_PATH: '/var/teamcity'
 
 #todo: jinja multiplication here could help.
 percent_total: "{{ansible_memtotal_mb * .8 }}"
