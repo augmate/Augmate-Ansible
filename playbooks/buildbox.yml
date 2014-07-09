@@ -3,7 +3,8 @@
 - name: Teamcity Master Servers
   hosts: buildserver-master
   sudo: True
-  #include_vars: postgres password?
+  vars_files:
+    - roles/teamcity/vars/teamcity_postgres_password.yml
   roles:
     #host, port, username, password
     - { role: postgresql }
@@ -29,7 +30,7 @@
         db=teamcity
         name=teamcity
         priv=ALL
-        password=secret
+        password="{{teamcity_postgres_password}}"
         state=present
       sudo: yes
       sudo_user: postgres
