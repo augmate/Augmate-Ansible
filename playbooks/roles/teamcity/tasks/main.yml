@@ -1,6 +1,8 @@
 ---
 # file: teamcity/tasks/main.yml
 
+- include_vars: teamcity_postgres_password.yml
+
 - name: Check if we're on Amazon, as buildboxes store large files. Wait up to 10 seconds for a response.
   shell: curl --max-time 10 http://169.254.169.254/latest/meta-data/block-device-mapping/ami/
   register: amazon_check
@@ -97,11 +99,23 @@
 
 - name: put the build agent property file in place, use hostname as agent name.
   template:
-    src=buildAgent/conf/buildAgent.properties
+    src=install_directory/buildAgent/conf/buildAgent.properties
     dest="{{teamcity_buildagent_conf_directory}}/buildAgent.properties"
     owner=root
     group=root
     mode=0644
+
+- name: put the database property file in place
+  template:
+    src=data_directory/config/database.properties
+    dest="{{teamcity_conf_directory}}/database.properties"
+    owner=root
+    group=root
+    mode=644
+
+#
+# / Templates
+#
 
 - name: Put an init script in place so we can run TeamCity like a standard service
   template:
