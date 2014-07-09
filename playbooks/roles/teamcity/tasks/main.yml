@@ -3,25 +3,10 @@
 
 - include_vars: teamcity_postgres_password.yml
 
-
-
-
-
-
-
-
-
-- name: Check if we're on Amazon, as buildboxes store large files. Wait up to 10 seconds for a response.
-  shell: curl --max-time 1 http://169.254.169.254/latest/meta-data/block-device-mapping/ami/
+- name: Check if we're on Amazon, as buildboxes store large files. Wait up to 5 seconds for a response.
+  shell: curl --max-time 5 http://169.254.169.254/latest/meta-data/block-device-mapping/ami/
   register: amazon_check
   ignore_errors: yes
-
-
-
-
-
-
-
 
 - name: If we have an amazon block device available, load the Amazon vars file.  This overrides defaults.
   include_vars: amazon.yml
@@ -213,7 +198,6 @@
     group=root
     mode=0664
     recurse=yes
-
 
 #
 # Templates
