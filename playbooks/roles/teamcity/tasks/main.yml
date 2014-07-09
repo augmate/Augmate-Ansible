@@ -3,10 +3,25 @@
 
 - include_vars: teamcity_postgres_password.yml
 
+
+
+
+
+
+
+
+
 - name: Check if we're on Amazon, as buildboxes store large files. Wait up to 10 seconds for a response.
-  shell: curl --max-time 10 http://169.254.169.254/latest/meta-data/block-device-mapping/ami/
+  shell: curl --max-time 1 http://169.254.169.254/latest/meta-data/block-device-mapping/ami/
   register: amazon_check
   ignore_errors: yes
+
+
+
+
+
+
+
 
 - name: If we have an amazon block device available, load the Amazon vars file.  This overrides defaults.
   include_vars: amazon.yml
@@ -92,6 +107,113 @@
   shell: tar -xf {{teamcity_download_file}} -C {{teamcity_install_directory}} chdir={{teamcity_download_directory}}
   register: team_city_decompress
   when: (get_team_city.changed == true) or (teamcity_bin.stat.exists == false)
+
+#
+# Files
+#
+
+- name: (DATA FILES basedir) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
+  copy:
+    src="{{item}}"
+    dest="{{teamcity_conf_directory}}"
+    owner=root
+    mode=0664
+    backup=no
+  with_fileglob:
+    - data_directory/config/*
+
+- name: (DATA FILES _auth) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
+  copy:
+    src="{{item}}"
+    dest="{{teamcity_conf_directory}}/_auth/"
+    owner=root
+    mode=0664
+    backup=no
+  with_fileglob:
+    - data_directory/config/_auth/*
+
+- name: (DATA FILES _logging) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
+  copy:
+    src="{{item}}"
+    dest="{{teamcity_conf_directory}}/_logging/"
+    owner=root
+    mode=0664
+    backup=no
+  with_fileglob:
+    - data_directory/config/_logging/*
+
+- name: make the _notifications dir
+  file:
+    state=directory
+    path="{{teamcity_conf_directory}}/_notifications/"
+    owner=root
+    group=root
+    mode=0664
+
+- name: (DATA FILES _notifications/email) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
+  copy:
+    src="{{item}}"
+    dest="{{teamcity_conf_directory}}/_notifications/email"
+    owner=root
+    group=root
+    mode=0664
+    backup=no
+  with_fileglob:
+    - data_directory/config/_notifications/email/*
+
+- name: (DATA FILES _notifications/feed) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
+  copy:
+    src="{{item}}"
+    dest="{{teamcity_conf_directory}}/_notifications/feed/"
+    owner=root
+    group=root
+    mode=0664
+    backup=no
+  with_fileglob:
+    - data_directory/config/_notifications/feed/*
+
+- name: (DATA FILES _notifications/ide_notificator) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
+  copy:
+    src="{{item}}"
+    dest="{{teamcity_conf_directory}}/_notifications/ide_notificator/"
+    owner=root
+    group=root
+    mode=0664
+    backup=no
+  with_fileglob:
+    - data_directory/config/_notifications/ide_notificator/*
+
+- name: (DATA FILES _notifications/jabber) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
+  copy:
+    src="{{item}}"
+    dest="{{teamcity_conf_directory}}/_notifications/jabber/"
+    owner=root
+    group=root
+    mode=0664
+    backup=no
+  with_fileglob:
+    - data_directory/config/_notifications/jabber/*
+
+- name: (DATA FILES _notifications/win32) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
+  copy:
+    src="{{item}}"
+    dest="{{teamcity_conf_directory}}/_notifications/win32/"
+    owner=root
+    group=root
+    mode=0664
+    backup=no
+  with_fileglob:
+    - data_directory/config/_notifications/win32/*
+
+- name: make the projects dir
+  file:
+    state=directory
+    path="{{teamcity_conf_directory}}/projects/config"
+    owner=root
+    group=root
+    mode=0664
+    recurse=yes
+
 
 #
 # Templates
