@@ -15,6 +15,7 @@ teamcity_agent_bin_directory: "{{teamcity_directory}}/buildAgent/bin"
 
 TEAMCITY_DATA_PATH: '/var/teamcity'
 
+teamcity_install_conf_directory: "{{teamcity_directory}}/conf"
 teamcity_buildagent_conf_directory: "{{teamcity_directory}}/buildAgent/conf"
 teamcity_conf_directory: "{{TEAMCITY_DATA_PATH}}/config"
 
