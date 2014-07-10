@@ -240,3 +240,13 @@
     group=root
     mode=644
 
+
+# Include specific tasks depending on the purpose of the target machine
+
+- name: Include the Agent Tasks if we were passed 'agent' to the variable 'teamcity_purpose'
+  include: agent.yml
+  when: teamcity_purpose == 'agent'
+
+- name: Include the Master Tasks if we were passed 'master' to the variable 'teamcity_purpose'
+  include: master.yml
+  when: teamcity_purpose == 'master'
