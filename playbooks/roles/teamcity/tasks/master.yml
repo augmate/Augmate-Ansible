@@ -1,7 +1,7 @@
 ---
 - name: Put an init script in place so we can run TeamCity like a standard service
   template:
-    src=teamcity.sh.j2
+    src=teamcity_all.sh.j2
     dest=/etc/init.d/teamcity
     owner=root
     group=root
@@ -12,17 +12,13 @@
     name=teamcity
     enabled=yes
 
+#
+# If not calling from the playbook, uncomment the following:
 #- name: Now that our preparation work is done, start TeamCity
 #  debug: msg="Notifying TeamCity to start."
 #  notify:
 #   - start teamcity
 
-- name: start teamcity
-  service:
-    name: teamcity
-    state: started
-  register: teamcity_start
-  failed_when: "'already running' not in teamcity_start.msg"
 
 # The fun thing about TeamCity is that it really only starts when it gets its first request.
 # Fire and forget a curl req to get TeamCity working
