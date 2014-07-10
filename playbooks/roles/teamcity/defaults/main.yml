@@ -43,3 +43,9 @@ java_jbdc_postgres_driver_download_file: "/var/cache/{{java_jbdc_postgres_driver
 
 java_jbdc_postgres_driver_install_directory: "{{TEAMCITY_DATA_PATH}}/lib/jdbc/"
 java_jbdc_postgres_driver_dest: "{{java_jbdc_postgres_driver_install_directory}}/{{java_jbdc_postgres_driver}}"
+
+
+#override the following for build agents
+teamcity_build_database_host: localhost
+teamcity_build_database_name: teamcity
+teamcity_build_database_user: teamcity
