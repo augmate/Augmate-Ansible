@@ -30,3 +30,7 @@
 - name: Unblock the teamcity serving port from UFW
   ufw: state=enabled
   ufw: rule=allow port={{teamcity_port}} proto=tcp
+
+- name: Unblock the teamcity serving port from UFW
+  ufw: state=enabled
+  ufw: rule=allow port={{teamcity_buildagent_port}} proto=tcp
