@@ -19,14 +19,6 @@
 #  notify:
 #   - start teamcity_buildagent
 
-
-# The fun thing about TeamCity is that it really only starts when it gets its first request.
-# Fire and forget a curl req to get TeamCity working
-- name: Fire off a request to the listening TeamCity port to fire up the service
-  command: curl --max-time 30 --fail --silent localhost:{{teamcity_port}}
-  async: 35
-  poll: 0
-
 - name: Unblock the teamcity serving port from UFW
   ufw: state=enabled
   ufw: rule=allow port={{teamcity_port}} proto=tcp
