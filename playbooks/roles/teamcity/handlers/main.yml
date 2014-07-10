@@ -8,3 +8,13 @@
 
 - name: stop teamcity
   service: name=teamcity state=stopped
+
+- name: start teamcity_buildagent
+  service:
+    name: teamcity_buildagent
+    state: started
+  register: teamcity_buildagent_start
+  failed_when: "'already running' not in teamcity_buildagent_start.msg"
+
+- name: stop teamcity_buildagent
+  service: name=teamcity_buildagent state=stopped
