@@ -36,16 +36,15 @@ Installs the Teamcity CI platform.
 
 http://confluence.jetbrains.com/display/TCD8/Installing+and+Configuring+the+TeamCity+Server
 
-Tags:
+SubTypes:
 
 + Master
 + Agent 
 
 Main role: 
 
-Ports opened
+Ports opened:
 
++ 8111
++ 9090
 
-###[website](https://github.com/augmate/ansible/blob/master/playbooks/website.yml) 
-
-Configures a webserver with the assets needed to serve [Augmate.com](http://augmate.com).

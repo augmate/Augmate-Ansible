@@ -13,14 +13,14 @@ e.g.
 	dependencies:
 	  - { role: vault }
  
-The `vault` role ensures that the .vault_pass.txt file in the base of the ansible repo is copied to the target server.
+The `vault` role ensures that the .vault_pass.txt file in the base of the Ansible repo is copied to the target server.
 
 
 ###Playbooks
 
 Playbooks are to be considered as the units of work in the Ansible system.  They should not do "too much" work, and instead, should be more concerned with the coordination of roles.
 
-The ideal playbook calls a series of roles, checks that the server has the required components, and starts the service.
+The ideal playbook calls a series of roles, checks that the server has the required components, customizes/gives variables to the roles, and starts the service(s).
 
 
 ###Roles
