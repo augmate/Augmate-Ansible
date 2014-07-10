@@ -4,6 +4,7 @@
   hosts: buildserver-master
   sudo: True
   vars_files:
+    - roles/teamcity/defaults/main.yml
     - roles/teamcity/vars/teamcity_postgres_password.yml
   roles:
     - { role: postgresql }
@@ -14,6 +15,7 @@
   tasks:
     - debug: msg="Teamcity Master tasks..."
 
+    # this allows logging into postgres with su postgres -c 'psql'
     - name: add a teamcity database if it doesn't already exist
       postgresql_db:
         name=teamcity
@@ -24,6 +26,7 @@
       sudo_user: postgres
 
     #http://docs.ansible.com/postgresql_user_module.html
+    #psql -d teamcity -U teamcity -W -h localhost (and then type the password)
     - name: add a postgres user 'teamcity' with 'all' privileges on teamcity's database
       postgresql_user:
         db=teamcity
@@ -39,16 +42,41 @@
       register: teamcity_start
       failed_when: "'already running' not in teamcity_start.msg"
 
+    # user admin added through the setup screens ends up in
+    # database teamcity, table users
+    # id | auth_type | realm |   username    | name | email | last_login_timestamp |             password
+    #----+-----------+-------+---------------+------+-------+----------------------+----------------------------------
+    #  1 | mixed     |       | sentinal_user |      |       |        1404955564571 | 6cdbb8d0e45dbfc097e1246c342c77e0
+
+    # Fire and forget a curl req to warm up the TeamCity web interface
+    #- name: Fire off a request to the listening TeamCity port to fire up the service
+    #  command: curl --max-time 3 --fail --silent localhost:{{teamcity_port}}
+    #  async: 5
+    #  poll: 0
+    #  ignore_errors: True
+    #  register: suppress_keyerror #ansible loses track of the parent "job id"
+
+    #- pause: seconds=10
+
+
   handlers:
     - include: roles/teamcity/handlers/main.yml
+  post_tasks:
 
+    #if grepping in reverse, use -m1 to stop after first match (GNU grep only)
+    - name: Grep the teamcity log to expose the maintenance password.
+      shell: grep 'authentication token' {{teamcity_directory}}/logs/teamcity-server.log | tail -n 1
+      register: web_ui_auth_token
+
+    - name: Print the last auth token in the log
+      debug: msg="{{web_ui_auth_token.stdout}}"
 
 - name: Teamcity Build Agents
   hosts: buildserver-agent
   sudo: True
   roles:
     - { role: java }
-    - { role: teamcity }
+    - { role: teamcity, teamcity_purpose: agent, teamcity_build_database_host: master_server}
   tags:
   - agent
   tasks:
