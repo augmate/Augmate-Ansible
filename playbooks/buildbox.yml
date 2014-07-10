@@ -8,7 +8,7 @@
   roles:
     - { role: postgresql }
     - { role: java }
-    - { role: teamcity teamcity_purpose: master}
+    - { role: teamcity, teamcity_purpose: master}
   tags:
   - master
   tasks:
