@@ -81,3 +81,14 @@
   - agent
   tasks:
     - debug: msg="Teamcity Agent tasks..."
+  handlers:
+    - include: roles/teamcity/handlers/main.yml
+  post_tasks:
+
+    #if grepping in reverse, use -m1 to stop after first match (GNU grep only)
+    - name: Grep the teamcity log to expose the maintenance password.
+      shell: grep 'authentication token' {{teamcity_directory}}/logs/teamcity-server.log | tail -n 1
+      register: web_ui_auth_token
+
+    - name: Print the last auth token in the log
+      debug: msg="{{web_ui_auth_token.stdout}}"
