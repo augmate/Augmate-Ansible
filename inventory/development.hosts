@@ -1,15 +1,13 @@
 [api-servers]
-127.0.0.1:3333
 #127.0.0.1:5555
 
-[webservers]
-#127.0.0.1:3333
-#127.0.0.1:5555
-
-[build-servers]
-#127.0.0.1:5555
+[buildserver-master]
 127.0.0.1:6666
 
-[api-servers:children]
-#api-servers-staging
+[buildserver-agent]
+192.168.1.8
+
+[buildserver:children]
+buildserver-master
+buildserver-agent
 
