@@ -6,14 +6,13 @@
   vars_files:
     - roles/teamcity/vars/teamcity_postgres_password.yml
   roles:
-    #host, port, username, password
     - { role: postgresql }
     - { role: java }
-    - { role: teamcity }
+    - { role: teamcity teamcity_purpose: master}
   tags:
   - master
   tasks:
-    - debug: msg="Buildbox master tasks."
+    - debug: msg="Teamcity Master tasks..."
 
     - name: add a teamcity database if it doesn't already exist
       postgresql_db:
@@ -36,10 +35,9 @@
       sudo_user: postgres
 
     - name: Now that our preparation work is done, start TeamCity
-      debug: msg="Notifying TeamCity to start."
-      notify:
-       - stop teamcity
-       - start teamcity
+      service: name=teamcity state=started
+      register: teamcity_start
+      failed_when: "'already running' not in teamcity_start.msg"
 
   handlers:
     - include: roles/teamcity/handlers/main.yml
@@ -48,12 +46,10 @@
 - name: Teamcity Build Agents
   hosts: buildserver-agent
   sudo: True
-  #include_vars: postgres password?
   roles:
     - { role: java }
     - { role: teamcity }
-    #needs
   tags:
   - agent
   tasks:
-    - debug: msg="Buildbox."
+    - debug: msg="Teamcity Agent tasks..."
