@@ -107,6 +107,43 @@
   with_fileglob:
     - data_directory/config/*
 
+- name: make supporting subdirs under config
+  file:
+    state=directory
+    path="{{teamcity_conf_directory}}/{{item}}/"
+    owner=root
+    group=root
+    mode=0664
+    recurse=yes
+  with_items:
+    - _auth
+    - _notifications
+    - projects
+
+- name: make subdirectories under _notifications
+  file:
+    state=directory
+    path="{{teamcity_conf_directory}}/_notifications/{{item}}/"
+    owner=root
+    group=root
+    mode=0664
+    recurse=yes
+  with_items:
+    - email
+    - feed
+    - ide_notificator
+    - jabber
+    - win32
+
+- name: make the projects/config dir
+  file:
+    state=directory
+    path="{{teamcity_conf_directory}}/projects/config/"
+    owner=root
+    group=root
+    mode=0664
+    recurse=yes
+
 - name: (DATA FILES _auth) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
   copy:
     src="{{item}}"
@@ -116,6 +153,7 @@
     backup=no
   with_fileglob:
     - data_directory/config/_auth/*
+
 
 - name: (DATA FILES _logging) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
   copy:
@@ -127,18 +165,10 @@
   with_fileglob:
     - data_directory/config/_logging/*
 
-- name: make the _notifications dir
-  file:
-    state=directory
-    path="{{teamcity_conf_directory}}/_notifications/"
-    owner=root
-    group=root
-    mode=0664
-
 - name: (DATA FILES _notifications/email) put the data dir configuration _files_ in place. these are normally populated after clicking 'proceed' in the GUI
   copy:
     src="{{item}}"
-    dest="{{teamcity_conf_directory}}/_notifications/email"
+    dest="{{teamcity_conf_directory}}/_notifications/email/"
     owner=root
     group=root
     mode=0664
@@ -189,15 +219,6 @@
     backup=no
   with_fileglob:
     - data_directory/config/_notifications/win32/*
-
-- name: make the projects dir
-  file:
-    state=directory
-    path="{{teamcity_conf_directory}}/projects/config"
-    owner=root
-    group=root
-    mode=0664
-    recurse=yes
 
 #
 # Templates
