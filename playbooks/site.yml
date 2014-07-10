@@ -1,18 +1,12 @@
 ---
 # file: site.yml
 
-#TODO: make step_one and step_two into an idempotent common role
 - hosts: all
-  roles:
-  - common
+  include: ./start.yml
 
 - hosts: api-servers
-  roles:
-    - api_nginx_nodejs
+  include: ./api-server.yml
 
 - hosts: buildbox
-  roles:
-    - buildbox
+  include: ./buildbox.yml
 
-#- include: api-servers.yml
-#- include: buildbox.yml
