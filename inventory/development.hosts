@@ -2,10 +2,10 @@
 #127.0.0.1:5555
 
 [buildserver-master]
-127.0.0.1:6666
+10.1.200.253
 
 [buildserver-agent]
-192.168.1.8
+10.1.200.254 teamcity_master_host="{{groups['buildserver-master'][0]}}"
 
 [buildserver:children]
 buildserver-master
