@@ -34,7 +34,7 @@ Next, create the administrator account.  The username and password combination s
 
 After the Ansible playbook finishes running, the TeamCity build agent will be ready to accept jobs from the master.
 
-Log into the master TeamCity GUI, navigate to 'agents', then the "Unauthorized" tab, and authorize your new host.
+Log into the master TeamCity GUI, navigate to 'agents', then the "Unauthorized" tab, and authorize your new host.  note: Sometimes it will take several minutes for the agent to show up on the master.
 
 
 #####Troubleshooting:
