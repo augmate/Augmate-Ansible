@@ -4,7 +4,8 @@
     name: teamcity
     state: started
   register: teamcity_start
-  failed_when: "'already running' not in teamcity_start.msg"
+  failed_when: "'Tomcat started.\\nBuild agent is already running with PID' not in teamcity_start.msg"
+
 
 - name: stop teamcity
   service: name=teamcity state=stopped

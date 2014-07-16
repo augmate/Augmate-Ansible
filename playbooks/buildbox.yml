@@ -40,7 +40,8 @@
     - name: Now that our preparation work is done, start TeamCity
       service: name=teamcity state=started
       register: teamcity_start
-      failed_when: "'already running' not in teamcity_start.msg"
+      tags: teamcity_start
+      failed_when: "'Tomcat started.\\nBuild agent is already running with PID' not in teamcity_start.msg"
 
     # user admin added through the setup screens ends up in
     # database teamcity, table users
