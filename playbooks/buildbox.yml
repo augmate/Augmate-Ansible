@@ -84,6 +84,13 @@
   - agent
   tasks:
     - debug: msg="Teamcity Agent tasks..."
+
+    - name: Now that our preparation work is done, start TeamCity
+      service: name=teamcity_buildagent state=started
+      register: teamcity_start
+      tags: teamcity_start
+      failed_when: "'Build agent is already running with PID' not in teamcity_start.msg"
+
   handlers:
     - include: roles/teamcity/handlers/main.yml
   post_tasks:
